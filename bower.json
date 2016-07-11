@@ -1,0 +1,33 @@
+{
+  "name": "epic-events-page",
+  "main": "epic-events-page.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "zeal-footer": "mauijim/zeal-footer",
+    "zeal-navbar": "mauijim/zeal-navbar#^1.2.7",
+    "epic-contentful": "epic-elements/epic-contentful",
+    "epic-polyfills": "epic-elements/epic-polyfills",
+    "epic-slider": "epic-web-components/epic-slider#^0.1.1",
+    "masonry": "^4.1.0",
+    "moment": "^2.14.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "authors": [
+    "Alex Goodwin <agoodwin727@gmail.com>"
+  ],
+  "description": "An events landing page",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
