@@ -114,6 +114,10 @@ Example:
             top: 0
         }
 
+        .pastEvents .event .card .content {
+          opacity: .6;
+        }
+
         .pastEvents .event .card .content .details {
             display: none
         }
@@ -170,6 +174,7 @@ Example:
             flex-basis: 50%;
             flex-grow: 1;
             margin-bottom: 0;
+            padding-right: 1em;
         }
 
         .event .card .content > * {
@@ -184,6 +189,11 @@ Example:
             font-weight: bold;
             color: white;
             letter-spacing: .025em;
+        }
+
+        .event .card .content a.moreDetails:hover {
+            background: #a52900;
+            cursor: pointer;
         }
 
         @media screen and (max-width: 991px) {
@@ -233,8 +243,6 @@ Example:
                 <h1>Events &amp; Happenings</h1>
             </div>
 
-            <epic-slider min-height="500px" slides="{{featuredUpcomingEvents}}"></epic-slider>
-
             <h2>Upcoming Events</h2>
 
             <div class="upcomingEvents">
@@ -251,12 +259,14 @@ Example:
                                 </div>
                                 <h3>[[item.teaser]]</h3>
                                 <p class="eventDetails">[[item.truncatedDetails]]</p>
-                                <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
+                                <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                             </div>
                         </div>
                     </div>
                 </template>
             </div>
+
+            <epic-slider min-height="500px" slides="{{featuredUpcomingEvents}}"></epic-slider>
 
             <h2>Past Events</h2>
 
@@ -274,7 +284,7 @@ Example:
                                 </div>
                                 <h3>[[item.teaser]]</h3>
                                 <p class="eventDetails">[[item.truncatedDetails]]</p>
-                                <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
+                                <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                             </div>
                         </div>
                     </div>
