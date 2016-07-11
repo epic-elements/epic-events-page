@@ -8,12 +8,12 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../epic-slider/epic-slider.html">
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../epic-slider/epic-slider.html" />
 <link rel="import" href="../zeal-navbar/zeal-navbar.html" />
 <link rel="import" href="../zeal-footer/zeal-footer.html" />
 <link rel="import" href="../epic-contentful/epic-contentful.html" />
-<link rel="import" href="../epic-polyfills/epic-polyfills.html">
+<link rel="import" href="../epic-polyfills/epic-polyfills.html" />
 <link rel="import" href="include-masonry.html" />
 <link rel="import" href="include-moment.html" />
 
@@ -64,22 +64,22 @@ Example:
             line-height: normal
         }
 
-        .main .heroTop {
+        .heroTop {
             padding: 50px 1em;
             background: url("img/events-hero.jpg") center center no-repeat;
             background-size: cover;
             color: white;
         }
 
-        .main .heroTop h1 {
+        .heroTop h1 {
             padding: 0;
             font-size: 5em;
             text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
             line-height: 300px
         }
 
-        .main .pastEvents,
-        .main .upcomingEvents {
+        .pastEvents,
+        .upcomingEvents {
             position: relative;
             width: 90%;
             margin: 0 auto;
@@ -99,18 +99,11 @@ Example:
             */
         }
 
-        .main .pastEvents.pastEvents,
-        .main .upcomingEvents.pastEvents {
-            padding-bottom: 15px
-        }
-
-        .main .pastEvents.pastEvents .event .card .imageBackground,
-        .main .upcomingEvents.pastEvents .event .card .imageBackground {
+        .pastEvents .event .card .imageBackground {
             position: relative
         }
 
-        .main .pastEvents.pastEvents .event .card .imageBackground:after,
-        .main .upcomingEvents.pastEvents .event .card .imageBackground:after {
+        .pastEvents .event .card .imageBackground:after{
             content: ' ';
             background-color: transparent;
             background: linear-gradient(to top, #fff, transparent);
@@ -121,205 +114,107 @@ Example:
             top: 0
         }
 
-        .main .pastEvents.pastEvents .event .card .content h2,
-        .main .upcomingEvents.pastEvents .event .card .content h2 {
-            padding-bottom: 0
-        }
-
-        .main .pastEvents.pastEvents .event .card .content h3,
-        .main .upcomingEvents.pastEvents .event .card .content h3 {
+        .pastEvents .event .card .content .details {
             display: none
         }
 
-        .main .pastEvents.pastEvents .event .card .content .details,
-        .main .upcomingEvents.pastEvents .event .card .content .details {
-            display: none
-        }
-
-        .main .pastEvents .event,
-        .main .upcomingEvents .event {
-            flex-basis: calc(33% - 1em);
+        .event {
+            flex-basis: 33.33%;
             padding: 0 1em;
             box-sizing: border-box;
             margin: 0 0 30px;
         }
 
-        .main .pastEvents .event .card,
-        .main .upcomingEvents .event .card {
+        .event .card {
             width: 100%;
             background: white;
             box-shadow: 0 0 5px #aaa
         }
 
-        .main .pastEvents .event .card .imageBackground,
-        .main .upcomingEvents .event .card .imageBackground {
+        .event .card .imageBackground {
             font-size: 0;
             background-size: cover;
-            height: 0;
             padding-top: 60%;
             background-position: center center;
         }
 
-        .main .pastEvents .event .card .imageBackground img,
-        .main .upcomingEvents .event .card .imageBackground img {
-            width: 100%
-        }
-
-        .main .pastEvents .event .card .content,
-        .main .upcomingEvents .event .card .content {
+        .event .card .content {
             padding: 15px;
             text-align: center
         }
 
-        .main .pastEvents .event .card .content h2,
-        .main .upcomingEvents .event .card .content h2 {
-            padding-bottom: 13px;
-            margin: 0.5em 0;
+        .event .card .content h2 {
+            margin: 0;
             font-size: 1.6em;
-            text-align: left
         }
 
-        .main .pastEvents .event .card .content h3,
-        .main .upcomingEvents .event .card .content h3 {
-            font-weight: bold;
-            padding: 1em 0;
-            text-align: left
+        .event .card .content h3 {
+            /*font-weight: normal;*/
+            /*font-size: 1em;*/
+            padding: 0;
         }
 
-        .main .pastEvents .event .card .content .details,
-        .main .upcomingEvents .event .card .content .details {
-            border: 1px solid #ccc;
+        .event .card .content .details {
             border-right: 0;
             border-left: 0;
-            padding: 0.5em 0;
+            padding: 0;
+            text-align: left;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        .event .card .content .details p {
+            display: inline-block;
+            flex-basis: 50%;
+            flex-grow: 1;
+            margin-bottom: 0;
+        }
+
+        .event .card .content > * {
             text-align: left
         }
 
-        .main .pastEvents .event .card .content .details .location,
-        .main .upcomingEvents .event .card .content .details .location {
-            margin-bottom: 0.25em
-        }
-
-        .main .pastEvents .event .card .content p.eventDetails,
-        .main .upcomingEvents .event .card .content p.eventDetails {
-            text-align: left
-        }
-
-        .main .pastEvents .event .card .content a.moreDetails,
-        .main .upcomingEvents .event .card .content a.moreDetails {
+        .event .card .content a.moreDetails {
             display: inline-block;
             background: #c30;
             padding: 1em 2em;
             margin: 1em auto;
-            color: white
+            font-weight: bold;
+            color: white;
+            letter-spacing: .025em;
         }
 
         @media screen and (max-width: 991px) {
-            .main .heroTop h1 {
+            .heroTop h1 {
                 line-height: 1em;
                 padding: 1em 20px;
                 font-size: 4em
             }
-            .main .pastEvents .event,
-            .main .upcomingEvents .event {
+            .event {
                 width: calc(50% - 20px)
             }
-            .main .pastEvents .event .card .content h2,
-            .main .upcomingEvents .event .card .content h2 {
+            .event .card .content h2 {
                 font-size: 2rem
             }
-            .main .pastEvents .event .card .content .eventDetails,
-            .main .upcomingEvents .event .card .content .eventDetails {
+            .event .card .content .eventDetails {
                 font-size: 1rem
             }
-            .main .pastEvents .event .card .content .moreDetails,
-            .main .upcomingEvents .event .card .content .moreDetails {
-                font-size: 1rem
-            }
-            .detailPageContent .heroTop h1 {
-                padding: 1em 20px;
-                font-size: 4em
-            }
-            .detailPageContent .background h1 {
-                font-size: 4rem
-            }
-            .detailPageContent .upcomingEventList2 {
-                width: 100%
-            }
-            .detailPageContent .upcomingEventList2 .upcomingEvent {
-                width: 50%;
-                padding: 10px
-            }
-            .detailPageContent .upcomingEventList2 .upcomingEvent .card .content h2 {
-                font-size: 2rem
-            }
-            .detailPageContent .upcomingEventList2 .upcomingEvent .card .content .eventDetails {
-                font-size: 1rem
-            }
-            .detailPageContent .upcomingEventList2 .upcomingEvent .card .content .moreDetails {
-                font-size: 1rem
-            }
-            .detailPageContent .pastEvents {
-                width: 100%
-            }
-            .detailPageContent .pastEvents .pastEvent {
-                width: 50%;
-                padding: 10px
-            }
-            .detailPageContent .pastEvents .pastEvent .eventDetails {
-                font-size: 1rem
-            }
-            .detailPageContent .featuredEvents {
-                width: 100%;
-                padding: 10px
-            }
-            .detailPageContent .featuredEvents .eventList .eventName {
-                font-size: 3rem
-            }
-            .detailPageContent .featuredEvents .eventList .eventDetails {
-                font-size: 1rem
-            }
-            .detailPageContent .featuredEvents .eventList .moreDetails {
+            .event .card .content .moreDetails {
                 font-size: 1rem
             }
         }
 
         @media screen and (max-width: 768px) {
-            .main .heroTop {
+            .heroTop {
                 padding: 50px 1em
             }
-            .main .heroTop h1 {
+            .heroTop h1 {
                 font-size: 3em;
                 line-height: 1.5em
             }
-            .main ul.featuredEvents {
-                width: 100%;
-                margin: 0 auto;
-                -webkit-flex-flow: column nowrap;
-                -ms-flex-flow: column nowrap;
-                flex-flow: column nowrap
-            }
-            .main ul.featuredEvents li {
-                min-height: 350px
-            }
-            .main ul.featuredEvents li .content h3 {
-                font-size: 2em;
-                -webkit-flex-basis: 100%;
-                -ms-flex-preferred-size: 100%;
-                flex-basis: 100%
-            }
-            .main ul.featuredEvents li .content h4 {
-                font-weight: 200
-            }
-            .main ul.featuredEvents li .content p.eventDetails {
-                text-align: left;
-                -webkit-flex-basis: 100%;
-                -ms-flex-preferred-size: 100%;
-                flex-basis: 100%;
-                font-weight: 200
-            }
-            .main .pastEvents .event,
-            .main .upcomingEvents .event {
+            .event {
                 width: 100%;
                 padding: 10px 0 !important
             }
@@ -338,10 +233,7 @@ Example:
                 <h1>Events &amp; Happenings</h1>
             </div>
 
-            <h2>Featured Events</h2>
-
-            <!-- featured events -->
-            <epic-slider min-height="500px" slides={{featuredUpcomingEvents}}></epic-slider>
+            <epic-slider min-height="500px" slides="{{featuredUpcomingEvents}}"></epic-slider>
 
             <h2>Upcoming Events</h2>
 
@@ -354,12 +246,12 @@ Example:
                             <div class="content">
                                 <h2>[[item.name]]</h2>
                                 <div class="details">
-                                    <div class="location">[[item.locationString]]</div>
-                                    <div class="startDate">[[item.startAndEnd]]</div>
+                                    <p class="location">[[item.locationString]]</p>
+                                    <p class="startDate">[[item.startAndEnd]]</p>
                                 </div>
                                 <h3>[[item.teaser]]</h3>
                                 <p class="eventDetails">[[item.truncatedDetails]]</p>
-                                <a href="#" class="moreDetails">Learn More</a>
+                                <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -377,12 +269,12 @@ Example:
                             <div class="content">
                                 <h2>[[item.name]]</h2>
                                 <div class="details">
-                                    <div class="location">[[item.locationString]]</div>
-                                    <div class="startDate">[[item.startAndEnd]]</div>
+                                    <p class="location">[[item.locationString]]</p>
+                                    <p class="startDate">[[item.startAndEnd]]</p>
                                 </div>
                                 <h3>[[item.teaser]]</h3>
                                 <p class="eventDetails">[[item.truncatedDetails]]</p>
-                                <a href="#" class="moreDetails">Learn More</a>
+                                <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -413,6 +305,10 @@ Example:
                     return [];
                 },
                 notify: true
+            },
+            maxDetailsChars: {
+                Type: Number,
+                value: 150
             }
         },
 
@@ -427,11 +323,11 @@ Example:
         },
 
         isPast: function(event) {
-            return !moment(event.startDate).isAfter(moment())
+            return !this.isUpcoming(event);
         },
 
         isUpcoming: function(event) {
-            return moment(event.startDate).isAfter(moment())
+            return moment(event.startDate).isAfter(moment());
         },
 
         isFeatured: function(event) {
@@ -478,12 +374,21 @@ Example:
 
                 var startDay = moment(response.detail.value.items[i].fields.startDate).format("D"),
                     endDay = moment(response.detail.value.items[i].fields.endDate).format("D"),
-                    startAndEnd;
+                    startAndEnd,
+                    truncatedDetails;
 
                 if (startDay !== endDay) {
                     startAndEnd = moment(response.detail.value.items[i].fields.startDate).format("MMM D - ") + moment(response.detail.value.items[i].fields.endDate).format("MMM D");
                 } else {
                     startAndEnd = moment(response.detail.value.items[i].fields.startDate).format("MMM D h:mmA");
+                }
+
+                // truncate event details to first x characters
+                if (response.detail.value.items[i].fields.details && response.detail.value.items[i].fields.details.length > this.maxDetailsChars) {
+                    truncatedDetails = response.detail.value.items[i].fields.details.substr(0, this.maxDetailsChars);
+                    truncatedDetails += '...';
+                } else {
+                    truncatedDetails = response.detail.value.items[i].fields.details;
                 }
 
                 this.push('events', {
@@ -499,6 +404,7 @@ Example:
                     'startDate': response.detail.value.items[i].fields.startDate,
                     'teaser': response.detail.value.items[i].fields.teaser,
                     'video': response.detail.value.items[i].fields.video,
+                    'truncatedDetails': truncatedDetails,
                     'startAndEnd': startAndEnd
                 });
             }
