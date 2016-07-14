@@ -1,0 +1,567 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../epic-slider/epic-slider.html" />
+<link rel="import" href="../zeal-navbar/zeal-navbar.html" />
+<link rel="import" href="../zeal-footer/zeal-footer.html" />
+<link rel="import" href="../epic-contentful/epic-contentful.html" />
+<link rel="import" href="../epic-polyfills/epic-polyfills.html" />
+<link rel="import" href="../marked-element/marked-element.html" />
+<link rel="import" href="include-moment.html" />
+
+<!--
+An event detail landing page
+
+Example:
+
+    <epic-event-detail-page></epic-event-detail-page>
+
+TODO:
+    decide on image display
+    test in ie
+    upgrade to new epic-contentful?
+
+@demo
+-->
+<dom-module id="epic-event-detail-page">
+    <style>
+        :host {
+            display: block;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Interstate", Helvetica, arial, sans-serif;
+        }
+
+        .main {
+            background-image: url("img/decorative-texture-1.png");
+            background-repeat: repeat
+        }
+
+        .heroHeader {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: row nowrap;
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            margin: 0 auto;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            min-height: 800px;
+        }
+
+        .heroHeader .center {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: column nowrap;
+            -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+            margin: auto;
+            width: 100%;
+        }
+
+        .heroHeader .center h1 {
+            text-align: center;
+            font-size: 5.625rem;
+            margin: 0 auto;
+            color: white;
+            text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
+            max-width: 80%;
+        }
+
+        .heroHeader .eventInfo {
+            display: inline-block;
+            -ms-flex-preferred-size: 50%;
+            -webkit-flex-basis: 50%;
+            flex-basis: 50%;
+            font-size: 1rem;
+            vertical-align: top;
+            margin: 0 auto
+        }
+
+        .heroHeader .eventInfo img {
+            width: 100%;
+            height: auto
+        }
+
+        .heroHeader .eventDetails {
+            display: inline-block;
+            font-size: 1.3em;
+            vertical-align: top;
+            margin: 0.5em 1em 0;
+            text-align: center;
+            color: white
+        }
+
+        .heroHeader .moreDetails {
+            background: #c30;
+            color: white;
+            padding: 0.5em;
+            margin: 1em auto 48px;
+            text-align: center;
+            width: 180px;
+            font-size: 1.3em
+        }
+
+        .details {
+            width: 100%;
+            background-color: white;
+            margin: 0 auto;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .video {
+            padding: 0;
+            background-color: #ccc;
+            background-image: url('img/decorative-texture-1.png');
+            background-repeat: repeat;
+            -webkit-flex-basis: 50%;
+            -ms-flex-preferred-size: 50%;
+            flex-basis: 50%;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: column nowrap;
+            -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .video .embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .video .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .poster {
+            padding: 0;
+            background-color: #ccc;
+            background-image: url('img/decorative-texture-1.png');
+            background-repeat: repeat;
+            -webkit-flex-basis: 50%;
+            -ms-flex-preferred-size: 50%;
+            flex-basis: 50%;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: column nowrap;
+            -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .poster img {
+            width: 100%;
+            height: auto;
+        }
+
+        .eventDetail {
+            -ms-flex-preferred-size: 50%;
+            -webkit-flex-basis: 50%;
+            flex-basis: 50%;
+            padding: 2em;
+            box-sizing: border-box;
+        }
+
+        .eventDetail label {
+            color: #ccc;
+            text-transform: uppercase;
+            display: block;
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        .eventDetail h2 {
+            font-size: 3em;
+            margin-top: .33em;
+        }
+
+        .eventDetail h3 {
+            margin-top: .25em;
+            font-size: 1.6em;
+        }
+
+        .eventDetail marked-element::content p {
+            line-height: 1.5;
+            max-width: 800px;
+        }
+
+        a.button {
+            display: inline-block;
+            background: #c30;
+            padding: 1em 2em;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-right: 1em;
+            margin-bottom: 1em;
+        }
+
+        a.button:hover {
+            background: #a52900;
+            cursor: pointer;
+        }
+
+        .otherPhotos {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+            -webkit-justify-content: flex-start;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+            -webkit-align-items: flex-end;
+            -ms-flex-align: end;
+            align-items: flex-end;
+            -webkit-align-content: flex-start;
+            -ms-flex-line-pack: start;
+            align-content: flex-start;
+        }
+
+        .otherPhotos div {
+          -webkit-flex: 1 1 33%;
+          -ms-flex: 1 1 33%;
+          flex: 1 1 33%;
+          width: 33%;
+          height: 300px;
+          background-size: cover;
+          background-position: center center;
+        }
+
+        .otherPhotos img {
+            display: none;
+        }
+
+        @media screen and (max-width: 991px) {
+            .otherPhotos div {
+                -webkit-flex: 1 1 50%;
+                -ms-flex: 1 1 50%;
+                flex: 1 1 50%;
+                width: 50%;
+            }
+            .heroHeader {
+                min-height: 400px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .heroHeader .center h1 {
+                font-size: 5em;
+            }
+            .details {
+                -webkit-flex-flow: row wrap;
+                -ms-flex-flow: row wrap;
+                flex-flow: row wrap;
+            }
+            .poster,
+            .video,
+            .eventDetail {
+                -webkit-flex-basis: 100%;
+                -ms-flex-preferred-size: 100%;
+                flex-basis: 100%;
+            }
+            .otherPhotos div {
+              height: 200px;
+            }
+        }
+    </style>
+
+    <template>
+        <epic-contentful token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086" space="1kzutnf7jc3r" content-type="events">
+            <epic-contentful-filter property="fields.slug" value="[[eventSlug]]"></epic-contentful-filter>
+        </epic-contentful>
+
+        <zeal-navbar></zeal-navbar>
+
+        <div id="pageContent" class="main">
+
+            <div class="heroHeader" style$="background-image: url([[featuredImage.url]])">
+                <div class="center">
+                    <h1 class="eventName">{{name}}</h1>
+                </div>
+            </div>
+
+            <div class="content">
+
+                <section class="details">
+
+                    <template is="dom-if" if="[[video]]">
+                        <div class="video">
+                            <div class="embed-container">
+                                <iframe class="video" src="[[video]]" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template is="dom-if" if="[[!video]]">
+                        <div class="poster">
+                            <a href="[[poster.url]]"><img src="[[poster.url]]" alt="[[name]] poster" /></a>
+                        </div>
+                    </template>
+
+                    <div class="eventDetail">
+                        <h2>[[name]]</h2>
+
+                        <label for="time">When</label>
+                        <h3 id="time">{{prettyDate(startDate, endDate)}}</h3>
+
+                        <label for="location">Where</label>
+                        <h3 id="location">[[location]]</h3>
+
+                        <label for="details">What</label>
+                        <h3>[[teaser]]</h3>
+                        <marked-element class="description" markdown="[[details]]" id="details"></marked-element>
+
+                        <template is="dom-if" if="[[externalUrl]]">
+                            <a href="[[externalUrl]]" class="button" target="_blank">[[name]]</a>
+                        </template>
+
+                        <template is="dom-if" if="[[blogUrl]]">
+                            <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
+                        </template>
+                    </div>
+                </section>
+
+                <section class="otherPhotos">
+                    <template is="dom-repeat" items="{{photos}}">
+                        <div style$="background-image: url([[item.url]]);">
+                            <img src="[[item.url]]" alt="[[item.title]]">
+                        </div>
+                    </template>
+                </section>
+            </div>
+        </div>
+
+        <zeal-footer></zeal-footer>
+
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'epic-event-detail-page',
+
+        properties: {
+            /**
+              The slug of the event to populate the page
+            */
+            eventSlug: {
+                type: String,
+                value: ''
+            },
+            /**
+              Markdown-enabled text content about the event
+            */
+            details: {
+                type: String,
+                value: ''
+            },
+            startDate: {
+                type: String,
+                value: ''
+            },
+            endDate: {
+                type: String,
+                value: ''
+            },
+            isFeatured: {
+                type: Boolean,
+                value: false
+            },
+            /**
+              Object of featured image, ie
+              {
+                'id': '',
+                'url': ''
+              }
+            */
+            featuredImage: {
+                type: Object,
+                value: function() {
+                    return {};
+                }
+            },
+            /**
+              Plaintext string of the event location
+            */
+            location: {
+                type: String,
+                value: ''
+            },
+            /**
+              Plaintext string of the event name
+            */
+            name: {
+                type: String,
+                value: ''
+            },
+            /**
+              Markdown-enabled text of the event teaser
+            */
+            teaser: {
+                type: String,
+                value: ''
+            },
+            /**
+              An array of photo objects
+              i.e. [
+                {
+                  'id': '',
+                  'url': '',
+                  'title': '',
+                  'description': ''
+                },
+              ]
+            */
+            photos: {
+                type: Array,
+                value: function() {
+                    return [];
+                }
+            },
+            poster: {
+                type: Object,
+                value: function() {
+                    return {};
+                }
+            },
+            /**
+              URL string of the embedded video
+              i.e. https://www.youtube.com/embed/KMwhGE0vd-w
+            */
+            video: {
+                type: String,
+                value: ''
+            },
+            blogUrl: {
+                type: String,
+                value: ''
+            },
+            externalUrl: {
+                type: String,
+                value: ''
+            }
+        },
+
+        observers: [],
+
+        ready: function() {
+            this.querySelector('epic-contentful').addEventListener('response', (function(response) {
+                this._handleContentfulResponse(response);
+            }).bind(this));
+        },
+
+        /**
+          Returns a "pretty" date range.
+        */
+        prettyDate: function(startDate, endDate) {
+            if (moment(startDate).format('DoMYYYY') === moment(endDate).format('DoMYYYY')) {
+                return moment(startDate).format('ddd, MMM Do h:mm') + ' - ' + moment(endDate).format('h:mm A');
+            } else {
+                return moment(startDate).format('ddd, MMM Do h:mm A') + ' - ' + moment(endDate).format('ddd, MMM Do h:mm A');
+            }
+        },
+
+        _handleContentfulResponse: function(response) {
+            // build assetMap for quick lookup
+            var assetMap = [];
+            for (var i = 0; i < response.detail.value.includes.Asset.length; i += 1) {
+                assetMap[response.detail.value.includes.Asset[i].sys.id] = response.detail.value.includes.Asset[i].fields;
+            }
+
+            // build entryMap for quick lookup
+            if (response.detail.value.includes.Entry) {
+                var entryMap = [];
+                for (var i = 0; i < response.detail.value.includes.Entry.length; i += 1) {
+                    entryMap[response.detail.value.includes.Entry[i].sys.id] = response.detail.value.includes.Entry[i].fields;
+                }
+            }
+
+            /*************
+
+              Do stuff with the response data (insert into DOM)
+
+            *************/
+            this.details = response.detail.value.items[0].fields.details;
+            this.startDate = response.detail.value.items[0].fields.startDate;
+            this.endDate = response.detail.value.items[0].fields.endDate;
+            this.startDate = response.detail.value.items[0].fields.startDate;
+            this.isFeatured = response.detail.value.items[0].fields.isFeatured;
+            this.featuredImage = {
+                'id': response.detail.value.items[0].fields.featuredImage.sys.id,
+                'url': assetMap[response.detail.value.items[0].fields.featuredImage.sys.id].file.url,
+                'title': assetMap[response.detail.value.items[0].fields.featuredImage.sys.id].file.title,
+                'description': assetMap[response.detail.value.items[0].fields.featuredImage.sys.id].file.description
+            }
+            this.location = response.detail.value.items[0].fields.locationString;
+            this.name = response.detail.value.items[0].fields.name;
+            this.slug = response.detail.value.items[0].fields.slug;
+            this.teaser = response.detail.value.items[0].fields.teaser;
+            if (response.detail.value.items[0].fields.video) {
+                this.video = response.detail.value.items[0].fields.video;
+            }
+            this.externalUrl = response.detail.value.items[0].fields.externalUrl;
+            this.blogUrl = response.detail.value.items[0].fields.blogUrl;
+
+            if (response.detail.value.items[0].fields.poster) {
+                this.poster = {
+                    'id': response.detail.value.items[0].fields.poster.sys.id || '',
+                    'url': assetMap[response.detail.value.items[0].fields.poster.sys.id].file.url,
+                    'title': assetMap[response.detail.value.items[0].fields.poster.sys.id].file.title,
+                    'description': assetMap[response.detail.value.items[0].fields.poster.sys.id].file.description
+                }
+            }
+
+            // photos
+            if (response.detail.value.items[0].fields.otherPhotos) {
+                console.log(assetMap);
+                for (var i = 0; i < response.detail.value.items[0].fields.otherPhotos.length; i += 1) {
+                    if (assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id]) {
+                        this.push('photos', {
+                            'id': response.detail.value.items[0].fields.otherPhotos[i].sys.id,
+                            'url': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.url,
+                            'title': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.title,
+                            'description': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.description,
+                            'width': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.details.image.width,
+                            'height': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.details.image.height,
+                        });
+                    } else {
+                        console.error('asset with id ' + response.detail.value.items[0].fields.otherPhotos[i].sys.id + ' not found (maybe it hasn\'t been published yet?)');
+                    }
+                }
+            }
+
+            this.instagramHashtag = response.detail.value.items[0].fields.instagramHashtag;
+        },
+    })
+</script>
