@@ -22,568 +22,584 @@ An event detail landing page
 
 Example:
 
-    <epic-event-detail-page></epic-event-detail-page>
-
-TODO:
-    upgrade to new epic-contentful?
+    <epic-event-detail-page event-slug="pirate-convention"></epic-event-detail-page>
 
 @demo
 -->
 <dom-module id="epic-event-detail-page">
-    <style>
-        :host {
-            display: block;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: "Interstate", Helvetica, arial, sans-serif;
-        }
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Interstate", Helvetica, arial, sans-serif;
+    }
 
-        .main {
-            background-image: url("img/decorative-texture-1.png");
-            background-repeat: repeat
-        }
+    .main {
+      background-image: url("img/decorative-texture-1.png");
+      background-repeat: repeat
+    }
 
-        .heroHeader {
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-flex-flow: row nowrap;
-            -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
-            margin: 0 auto;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            min-height: 800px;
-            height: 800px; /* ie requires a height to vertically center */
-            align-items: center;
-        }
+    .heroHeader {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: row nowrap;
+      -ms-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+      margin: 0 auto;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      min-height: 800px;
+      height: 800px;
+      /* ie requires a height to vertically center */
+      align-items: center;
+      position: relative;
+    }
 
-        .heroHeader .center {
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-flex-flow: column nowrap;
-            -ms-flex-flow: column nowrap;
-            flex-flow: column nowrap;
-            -ms-flex-align: center;
-            text-align: center;
-            margin: auto;
-            width: 100%;
-        }
+    .heroHeader a.events {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #c30;
+      color: white;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1em 2em;
+    }
 
-        .heroHeader .center h1 {
-            text-align: center;
-            font-size: 5.625rem;
-            margin: 0 auto;
-            color: white;
-            text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
-            max-width: 80%;
-        }
+    .heroHeader a.events:hover {
+      background: #a52900;
+      cursor: pointer;
+    }
 
-        .heroHeader .eventInfo {
-            display: inline-block;
-            -ms-flex-preferred-size: 50%;
-            -webkit-flex-basis: 50%;
-            flex-basis: 50%;
-            font-size: 1rem;
-            vertical-align: top;
-            margin: 0 auto
-        }
+    .heroHeader .center {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+      flex-flow: column nowrap;
+      -ms-flex-align: center;
+      text-align: center;
+      margin: auto;
+      width: 100%;
+    }
 
-        .heroHeader .eventInfo img {
-            width: 100%;
-            height: auto
-        }
+    .heroHeader .center h1 {
+      text-align: center;
+      font-size: 5.625rem;
+      margin: 0 auto;
+      color: white;
+      text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
+      max-width: 80%;
+    }
 
-        .heroHeader .eventDetails {
-            display: inline-block;
-            font-size: 1.3em;
-            vertical-align: top;
-            margin: 0.5em 1em 0;
-            text-align: center;
-            color: white
-        }
+    .heroHeader .eventInfo {
+      display: inline-block;
+      -ms-flex-preferred-size: 50%;
+      -webkit-flex-basis: 50%;
+      flex-basis: 50%;
+      font-size: 1rem;
+      vertical-align: top;
+      margin: 0 auto
+    }
 
-        .heroHeader .moreDetails {
-            background: #c30;
-            color: white;
-            padding: 0.5em;
-            margin: 1em auto 48px;
-            text-align: center;
-            width: 180px;
-            font-size: 1.3em
-        }
+    .heroHeader .eventInfo img {
+      width: 100%;
+      height: auto
+    }
 
-        .details {
-            width: 100%;
-            background-color: white;
-            margin: 0 auto;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-        }
+    .heroHeader .eventDetails {
+      display: inline-block;
+      font-size: 1.3em;
+      vertical-align: top;
+      margin: 0.5em 1em 0;
+      text-align: center;
+      color: white
+    }
 
-        .video {
-            padding: 0;
-            background-color: #ccc;
-            background-image: url('img/decorative-texture-1.png');
-            background-repeat: repeat;
-            -webkit-flex-basis: 50%;
-            -ms-flex-preferred-size: 50%;
-            flex-basis: 50%;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-flex-flow: column nowrap;
-            -ms-flex-flow: column nowrap;
-            flex-flow: column nowrap;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
-            justify-content: center;
-        }
+    .heroHeader .moreDetails {
+      background: #c30;
+      color: white;
+      padding: 0.5em;
+      margin: 1em auto 48px;
+      text-align: center;
+      width: 180px;
+      font-size: 1.3em
+    }
 
-        .video .embed-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-        }
+    .details {
+      width: 100%;
+      background-color: white;
+      margin: 0 auto;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+    }
 
-        .video .embed-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+    .video {
+      padding: 0;
+      background-color: #ccc;
+      background-image: url('img/decorative-texture-1.png');
+      background-repeat: repeat;
+      -webkit-flex-basis: 50%;
+      -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+      flex-flow: column nowrap;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
 
-        .poster {
-            padding: 0;
-            background-color: #ccc;
-            background-image: url('img/decorative-texture-1.png');
-            background-repeat: repeat;
-            -webkit-flex-basis: 50%;
-            -ms-flex-preferred-size: 50%;
-            flex-basis: 50%;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-flex-flow: column nowrap;
-            -ms-flex-flow: column nowrap;
-            flex-flow: column nowrap;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
-            justify-content: center;
-        }
+    .video .embed-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+    }
 
-        .poster a {
-          font-size: 0;
-        }
+    .video .embed-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-        .poster img {
-            width: 100%;
-            height: auto;
-        }
+    .poster {
+      padding: 0;
+      background-color: #ccc;
+      background-image: url('img/decorative-texture-1.png');
+      background-repeat: repeat;
+      -webkit-flex-basis: 50%;
+      -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+      flex-flow: column nowrap;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
 
-        .eventDetail {
-            -ms-flex-preferred-size: 50%;
-            -webkit-flex-basis: 50%;
-            flex-basis: 50%;
-            padding: 2em;
-            box-sizing: border-box;
-        }
+    .poster a {
+      font-size: 0;
+    }
 
-        .eventDetail label {
-            color: #ccc;
-            text-transform: uppercase;
-            display: block;
-            font-size: 1.6em;
-            font-weight: bold;
-        }
+    .poster img {
+      width: 100%;
+      height: auto;
+    }
 
-        .eventDetail h2 {
-            font-size: 3em;
-            margin-top: .33em;
-        }
+    .eventDetail {
+      -ms-flex-preferred-size: 50%;
+      -webkit-flex-basis: 50%;
+      flex-basis: 50%;
+      padding: 2em;
+      box-sizing: border-box;
+    }
 
-        .eventDetail h3 {
-            margin-top: .25em;
-            font-size: 1.6em;
-        }
+    .eventDetail label {
+      color: #ccc;
+      text-transform: uppercase;
+      display: block;
+      font-size: 1.6em;
+      font-weight: bold;
+    }
 
-        .eventDetail marked-element::content p {
-            line-height: 1.5;
-            max-width: 800px;
-        }
+    .eventDetail h2 {
+      font-size: 3em;
+      margin-top: .33em;
+    }
 
-        a.button {
-            display: inline-block;
-            background: #c30;
-            padding: 1em 2em;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-decoration: none;
-            margin: 1em 1em 1em 0;
-        }
+    .eventDetail h3 {
+      margin-top: .25em;
+      font-size: 1.6em;
+    }
 
-        a.button:hover {
-            background: #a52900;
-            cursor: pointer;
-        }
+    .eventDetail marked-element::content p {
+      line-height: 1.5;
+      max-width: 800px;
+    }
 
-        .otherPhotos {
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-flex-flow: row wrap;
-            -ms-flex-flow: row wrap;
-            flex-flow: row wrap;
-            -webkit-justify-content: flex-start;
-            -ms-flex-pack: start;
-            justify-content: flex-start;
-            -webkit-align-items: flex-end;
-            -ms-flex-align: end;
-            align-items: flex-end;
-            -webkit-align-content: flex-start;
-            -ms-flex-line-pack: start;
-            align-content: flex-start;
-        }
+    a.button {
+      display: inline-block;
+      background: #c30;
+      padding: 1em 2em;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-decoration: none;
+      margin: 1em 1em 1em 0;
+    }
 
-        .otherPhotos div {
-          -webkit-flex: 1 1 33%;
-          -ms-flex: 1 1 33%;
-          flex: 1 1 33%;
-          width: 33%;
-          height: 300px;
-          background-size: cover;
-          background-position: center center;
-        }
+    a.button:hover {
+      background: #a52900;
+      cursor: pointer;
+    }
 
-        .otherPhotos img {
-            display: none;
-        }
+    .otherPhotos {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: row wrap;
+      -ms-flex-flow: row wrap;
+      flex-flow: row wrap;
+      -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+      justify-content: flex-start;
+      -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+      align-items: flex-end;
+      -webkit-align-content: flex-start;
+      -ms-flex-line-pack: start;
+      align-content: flex-start;
+    }
 
-        @media screen and (max-width: 991px) {
-            .otherPhotos div {
-                -webkit-flex: 1 1 50%;
-                -ms-flex: 1 1 50%;
-                flex: 1 1 50%;
-                width: 50%;
-            }
-            .heroHeader {
-                min-height: 400px;
-            }
-            a.button {
-              margin: 1em 0;
-              text-align: center;
-              display: block;
-            }
-            a.button:first-of-type {
-              margin-top: 2em;
-            }
-        }
+    .otherPhotos div {
+      -webkit-flex: 1 1 33%;
+      -ms-flex: 1 1 33%;
+      flex: 1 1 33%;
+      width: 33%;
+      height: 300px;
+      background-size: cover;
+      background-position: center center;
+    }
 
-        @media screen and (max-width: 768px) {
-            .heroHeader .center h1 {
-                font-size: 3.5em;
-            }
-            .details {
-                -webkit-flex-flow: row wrap;
-                -ms-flex-flow: row wrap;
-                flex-flow: row wrap;
-            }
-            .poster,
-            .video,
-            .eventDetail {
-                -webkit-flex-basis: 100%;
-                -ms-flex-preferred-size: 100%;
-                flex-basis: 100%;
-                order: 1;
-            }
-            .eventDetail {
-              order: 0;
-            }
-            .otherPhotos div {
-              height: 200px;
-            }
-        }
+    .otherPhotos img {
+      display: none;
+    }
 
-        @media print {
-            .video, zeal-navbar {
-              display: none;
-            }
-        }
-    </style>
+    @media screen and (max-width: 991px) {
+      .otherPhotos div {
+        -webkit-flex: 1 1 50%;
+        -ms-flex: 1 1 50%;
+        flex: 1 1 50%;
+        width: 50%;
+      }
+      .heroHeader {
+        min-height: 400px;
+      }
+      a.button {
+        margin: 1em 0;
+        text-align: center;
+        display: block;
+      }
+      a.button:first-of-type {
+        margin-top: 2em;
+      }
+    }
 
-    <template>
-        <epic-contentful token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086" space="1kzutnf7jc3r" content-type="events">
-            <epic-contentful-filter property="fields.slug" value="[[eventSlug]]"></epic-contentful-filter>
-        </epic-contentful>
+    @media screen and (max-width: 768px) {
+      .heroHeader .center h1 {
+        font-size: 3.5em;
+      }
+      .details {
+        -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+      }
+      .poster,
+      .video,
+      .eventDetail {
+        -webkit-flex-basis: 100%;
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        order: 1;
+      }
+      .eventDetail {
+        order: 0;
+      }
+      .otherPhotos div {
+        height: 200px;
+      }
+    }
+  </style>
 
-        <zeal-navbar></zeal-navbar>
+  <template>
+    <epic-contentful token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086" space="1kzutnf7jc3r" content-type="events" entries="{{entries}}">
+      <epic-contentful-params property="fields.slug" value="[[eventSlug]]"></epic-contentful-params>
+    </epic-contentful>
 
-        <div id="pageContent" class="main">
+    <zeal-navbar></zeal-navbar>
 
-            <div class="heroHeader" style$="background-image: url([[featuredImage.url]])">
-                <div class="center">
-                    <h1 class="eventName">{{name}}</h1>
-                </div>
-            </div>
+    <div id="pageContent" class="main">
 
-            <div class="content">
-
-                <section class="details">
-
-                    <template is="dom-if" if="[[video]]">
-                        <div class="video">
-                            <div class="embed-container">
-                                <iframe class="video" src="[[video]]" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template is="dom-if" if="[[!video]]">
-                        <div class="poster">
-                            <a href="[[poster.url]]"><img src="[[poster.url]]" alt="[[name]] poster" /></a>
-                        </div>
-                    </template>
-
-                    <div class="eventDetail">
-                        <h2>[[name]]</h2>
-
-                        <label for="time">When</label>
-                        <h3 id="time">{{prettyDate(startDate, endDate)}}</h3>
-
-                        <label for="location">Where</label>
-                        <h3 id="location">[[location]]</h3>
-
-                        <label for="details">What</label>
-                        <h3>[[teaser]]</h3>
-                        <marked-element class="description" markdown="[[details]]" id="details"></marked-element>
-
-                        <template is="dom-if" if="[[externalUrl]]">
-                            <a href="[[externalUrl]]" class="button" target="_blank">[[name]]</a>
-                        </template>
-
-                        <template is="dom-if" if="[[blogUrl]]">
-                            <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
-                        </template>
-                    </div>
-                </section>
-
-                <section class="otherPhotos">
-                    <template is="dom-repeat" items="{{photos}}">
-                        <div style$="background-image: url([[item.url]]);">
-                            <img src="[[item.url]]" alt="[[item.title]]">
-                        </div>
-                    </template>
-                </section>
-            </div>
+      <div class="heroHeader" style$="background-image: url([[featuredImage.url]])">
+        <a href="/events/" class="events">&#8249; Back to Events</a>
+        <div class="center">
+          <h1 class="eventName">{{name}}</h1>
         </div>
+      </div>
 
-        <zeal-footer></zeal-footer>
+      <div class="content">
 
-    </template>
+        <section class="details">
+
+          <!--
+              left image has the following priority:
+                  video
+                  poster
+                  first image from "photos"
+                  featuredImage
+          -->
+          <template is="dom-if" if="[[video]]">
+            <div class="video">
+              <div class="embed-container">
+                <iframe class="video" src="[[video]]" frameborder="0" allowfullscreen></iframe>
+              </div>
+            </div>
+          </template>
+
+          <template is="dom-if" if="[[!video]]">
+            <div class="poster">
+              <template is="dom-if" if="[[poster]]">
+                <a href="[[poster.url]]"><img src="[[poster.url]]" alt="[[name]] poster" /></a>
+              </template>
+              <template is="dom-if" if="[[!poster]]">
+                <template is="dom-if" if="[[photos.0.url]]">
+                  <img src="[[photos.0.url]]" alt="[[name]]" />
+                </template>
+                <template is="dom-if" if="[[!photos.0.url]]">
+                  <img src="[[featuredImage.url]]" alt="[[name]]" />
+                </template>
+              </template>
+            </div>
+          </template>
+
+          <div class="eventDetail">
+            <h2>[[name]]</h2>
+
+            <label for="time">When</label>
+            <h3 id="time">{{prettyDate(startDate, endDate)}}</h3>
+
+            <label for="location">Where</label>
+            <h3 id="location">[[location]]</h3>
+
+            <label for="details">What</label>
+            <h3>[[teaser]]</h3>
+            <marked-element class="description" markdown="[[details]]" id="details"></marked-element>
+
+            <template is="dom-if" if="[[externalUrl]]">
+              <a href="[[externalUrl]]" class="button" target="_blank">[[name]]</a>
+            </template>
+
+            <template is="dom-if" if="[[blogUrl]]">
+              <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
+            </template>
+          </div>
+        </section>
+
+        <section class="otherPhotos">
+          <template is="dom-repeat" items="{{photos}}">
+            <div style$="background-image: url([[item.url]]);">
+              <img src="[[item.url]]" alt="[[item.title]]">
+            </div>
+          </template>
+        </section>
+      </div>
+    </div>
+
+    <zeal-footer></zeal-footer>
+
+  </template>
 </dom-module>
 
 <script>
-    Polymer({
-        is: 'epic-event-detail-page',
+  Polymer({
+    is: 'epic-event-detail-page',
 
-        properties: {
-            /**
-              The slug of the event to populate the page
-            */
-            eventSlug: {
-                type: String,
-                value: ''
-            },
-            /**
-              Markdown-enabled text content about the event
-            */
-            details: {
-                type: String,
-                value: ''
-            },
-            startDate: {
-                type: String,
-                value: ''
-            },
-            endDate: {
-                type: String,
-                value: ''
-            },
-            isFeatured: {
-                type: Boolean,
-                value: false
-            },
-            /**
-              Object of featured image, ie
-              {
-                'id': '',
-                'url': ''
-              }
-            */
-            featuredImage: {
-                type: Object,
-                value: function() {
-                    return {};
-                }
-            },
-            /**
-              Plaintext string of the event location
-            */
-            location: {
-                type: String,
-                value: ''
-            },
-            /**
-              Plaintext string of the event name
-            */
-            name: {
-                type: String,
-                value: ''
-            },
-            /**
-              Markdown-enabled text of the event teaser
-            */
-            teaser: {
-                type: String,
-                value: ''
-            },
-            /**
-              An array of photo objects
-              i.e. [
-                {
-                  'id': '',
-                  'url': '',
-                  'title': '',
-                  'description': ''
-                },
-              ]
-            */
-            photos: {
-                type: Array,
-                value: function() {
-                    return [];
-                }
-            },
-            poster: {
-                type: Object,
-                value: function() {
-                    return {};
-                }
-            },
-            /**
-              URL string of the embedded video
-              i.e. https://www.youtube.com/embed/KMwhGE0vd-w
-            */
-            video: {
-                type: String,
-                value: ''
-            },
-            blogUrl: {
-                type: String,
-                value: ''
-            },
-            externalUrl: {
-                type: String,
-                value: ''
-            }
-        },
+    properties: {
+      /**
+        The slug of the event to populate the page
+      */
+      eventSlug: {
+        type: String,
+        value: ''
+      },
+      /**
+        Markdown-enabled text content about the event
+      */
+      details: {
+        type: String,
+        value: ''
+      },
+      startDate: {
+        type: String,
+        value: ''
+      },
+      endDate: {
+        type: String,
+        value: ''
+      },
+      isFeatured: {
+        type: Boolean,
+        value: false
+      },
+      /**
+        Object of featured image, ie
+        {
+          'id': '',
+          'url': ''
+        }
+      */
+      featuredImage: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+      /**
+        Plaintext string of the event location
+      */
+      location: {
+        type: String,
+        value: ''
+      },
+      /**
+        Plaintext string of the event name
+      */
+      name: {
+        type: String,
+        value: ''
+      },
+      /**
+        Markdown-enabled text of the event teaser
+      */
+      teaser: {
+        type: String,
+        value: ''
+      },
+      /**
+        An array of photo objects
+        i.e. [
+          {
+            'id': '',
+            'url': '',
+            'title': '',
+            'description': ''
+          },
+        ]
+      */
+      photos: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      poster: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+      /**
+        URL string of the embedded video
+        i.e. https://www.youtube.com/embed/KMwhGE0vd-w
+      */
+      video: {
+        type: String,
+        value: ''
+      },
+      blogUrl: {
+        type: String,
+        value: ''
+      },
+      externalUrl: {
+        type: String,
+        value: ''
+      }
+    },
 
-        observers: [],
+    observers: [
+      '_observeEntries(entries)',
+    ],
 
-        ready: function() {
-            this.querySelector('epic-contentful').addEventListener('response', (function(response) {
-                this._handleContentfulResponse(response);
-            }).bind(this));
-        },
+    ready: function() {
+    },
 
-        /**
-          Returns a "pretty" date range.
-        */
-        prettyDate: function(startDate, endDate) {
-            if (moment(startDate).format('DoMYYYY') === moment(endDate).format('DoMYYYY')) {
-                return moment(startDate).format('ddd, MMM Do h:mm') + ' - ' + moment(endDate).format('h:mm A');
-            } else {
-                return moment(startDate).format('ddd, MMM Do h:mm A') + ' - ' + moment(endDate).format('ddd, MMM Do h:mm A');
-            }
-        },
+    /**
+      Returns a "pretty" date range.
+    */
+    prettyDate: function(startDate, endDate) {
+      if (moment(startDate).format('DoMYYYY') === moment(endDate).format('DoMYYYY')) {
+        return moment(startDate).format('ddd, MMM Do h:mm') + ' - ' + moment(endDate).format('h:mm A');
+      } else {
+        return moment(startDate).format('ddd, MMM Do h:mm A') + ' - ' + moment(endDate).format('ddd, MMM Do h:mm A');
+      }
+    },
 
-        _handleContentfulResponse: function(response) {
-            // build assetMap for quick lookup
-            var assetMap = [];
-            for (var i = 0; i < response.detail.value.includes.Asset.length; i += 1) {
-                assetMap[response.detail.value.includes.Asset[i].sys.id] = response.detail.value.includes.Asset[i].fields;
-            }
+    /**
+      Once contentful has returned the query, process the response and assign it to the object properties
+    */
+    _observeEntries: function(response) {
 
-            // build entryMap for quick lookup
-            if (response.detail.value.includes.Entry) {
-                var entryMap = [];
-                for (var i = 0; i < response.detail.value.includes.Entry.length; i += 1) {
-                    entryMap[response.detail.value.includes.Entry[i].sys.id] = response.detail.value.includes.Entry[i].fields;
-                }
-            }
+      if (Object.keys(response).length === 0 && response.constructor === Object || !response || response == null || typeof response.items == 'undefined') {
+        return;
+      }
 
-            /*************
+      this.details = response.items[0].fields.details;
+      this.startDate = response.items[0].fields.startDate;
+      this.endDate = response.items[0].fields.endDate;
+      this.startDate = response.items[0].fields.startDate;
+      this.isFeatured = response.items[0].fields.isFeatured;
+      this.location = response.items[0].fields.locationString;
+      this.name = response.items[0].fields.name;
+      this.slug = response.items[0].fields.slug;
+      this.teaser = response.items[0].fields.teaser;
+      this.externalUrl = response.items[0].fields.externalUrl;
+      this.blogUrl = response.items[0].fields.blogUrl;
 
-              Do stuff with the response data (insert into DOM)
+      this.featuredImage = {
+        'id': response.items[0].fields.featuredImage.sys.id,
+        'url': response.items[0].fields.featuredImage.fields.file.url,
+        'title': response.items[0].fields.featuredImage.fields.file.title
+      }
 
-            *************/
-            this.details = response.detail.value.items[0].fields.details;
-            this.startDate = response.detail.value.items[0].fields.startDate;
-            this.endDate = response.detail.value.items[0].fields.endDate;
-            this.startDate = response.detail.value.items[0].fields.startDate;
-            this.isFeatured = response.detail.value.items[0].fields.isFeatured;
-            this.featuredImage = {
-                'id': response.detail.value.items[0].fields.featuredImage.sys.id,
-                'url': assetMap[response.detail.value.items[0].fields.featuredImage.sys.id].file.url,
-                'title': assetMap[response.detail.value.items[0].fields.featuredImage.sys.id].file.title,
-                'description': assetMap[response.detail.value.items[0].fields.featuredImage.sys.id].file.description
-            }
-            this.location = response.detail.value.items[0].fields.locationString;
-            this.name = response.detail.value.items[0].fields.name;
-            this.slug = response.detail.value.items[0].fields.slug;
-            this.teaser = response.detail.value.items[0].fields.teaser;
-            if (response.detail.value.items[0].fields.video) {
-                this.video = response.detail.value.items[0].fields.video;
-            }
-            this.externalUrl = response.detail.value.items[0].fields.externalUrl;
-            this.blogUrl = response.detail.value.items[0].fields.blogUrl;
+      if (response.items[0].fields.video) {
+        this.video = response.items[0].fields.video;
+      } else {
+        this.video = null;
+      }
 
-            if (response.detail.value.items[0].fields.poster) {
-                this.poster = {
-                    'id': response.detail.value.items[0].fields.poster.sys.id || '',
-                    'url': assetMap[response.detail.value.items[0].fields.poster.sys.id].file.url,
-                    'title': assetMap[response.detail.value.items[0].fields.poster.sys.id].file.title,
-                    'description': assetMap[response.detail.value.items[0].fields.poster.sys.id].file.description
-                }
-            }
+      if (response.items[0].fields.poster) {
+        this.poster = {
+          'id': response.items[0].fields.poster.sys.id,
+          'url': response.items[0].fields.poster.fields.file.url,
+          'title': response.items[0].fields.poster.fields.file.title
+        }
+      } else {
+        this.poster = null;
+      }
 
-            // photos
-            if (response.detail.value.items[0].fields.otherPhotos) {
-                for (var i = 0; i < response.detail.value.items[0].fields.otherPhotos.length; i += 1) {
-                    if (assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id]) {
-                        this.push('photos', {
-                            'id': response.detail.value.items[0].fields.otherPhotos[i].sys.id,
-                            'url': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.url,
-                            'title': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.title,
-                            'description': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.description,
-                            'width': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.details.image.width,
-                            'height': assetMap[response.detail.value.items[0].fields.otherPhotos[i].sys.id].file.details.image.height,
-                        });
-                    } else {
-                        console.error('asset with id ' + response.detail.value.items[0].fields.otherPhotos[i].sys.id + ' not found (maybe it hasn\'t been published yet?)');
-                    }
-                }
-            }
-
-            this.instagramHashtag = response.detail.value.items[0].fields.instagramHashtag;
-        },
-    })
+      // photos
+      if (response.items[0].fields.otherPhotos) {
+        // prevent previously loaded event from conflicting
+        this.photos = [];
+        for (var i = 0; i < response.items[0].fields.otherPhotos.length; i += 1) {
+          this.push('photos', {
+            'id': response.items[0].fields.otherPhotos[i].sys.id,
+            'url': response.items[0].fields.otherPhotos[i].fields.file.url,
+            'title': response.items[0].fields.otherPhotos[i].fields.file.title,
+            'width': response.items[0].fields.otherPhotos[i].fields.file.details.image.width,
+            'height': response.items[0].fields.otherPhotos[i].fields.file.details.image.height,
+          });
+        }
+      } else {
+        this.photos = [];
+      }
+    },
+  })
 </script>
