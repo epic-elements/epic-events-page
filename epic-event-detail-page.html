@@ -250,6 +250,13 @@ Example:
       cursor: pointer;
     }
 
+    a.button.facebook {
+      background: #3b5998;
+    }
+    a.button.facebook:hover {
+      background: #29487d;
+    }
+
     .otherPhotos {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -399,6 +406,10 @@ Example:
             <template is="dom-if" if="[[blogUrl]]">
               <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
             </template>
+
+            <template is="dom-if" if="[[facebookUrl]]">
+              <a href="[[facebookUrl]]" class="button facebook" target="_blank">Event on Facebook</a>
+            </template>
           </div>
         </section>
 
@@ -520,6 +531,10 @@ Example:
       externalUrl: {
         type: String,
         value: ''
+      },
+      facebookUrl: {
+        type: String,
+        value: ''
       }
     },
 
@@ -561,6 +576,7 @@ Example:
       this.teaser = response.items[0].fields.teaser;
       this.externalUrl = response.items[0].fields.externalUrl;
       this.blogUrl = response.items[0].fields.blogUrl;
+      this.facebookUrl = response.items[0].fields.facebookUrl;
 
       this.featuredImage = {
         'id': response.items[0].fields.featuredImage.sys.id,

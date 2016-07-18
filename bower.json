@@ -10,7 +10,10 @@
     "epic-slider": "epic-web-components/epic-slider#^0.1.1",
     "masonry": "^4.1.0",
     "moment": "^2.14.1",
-    "marked-element": "PolymerElements/marked-element#^1.1.3"
+    "marked-element": "PolymerElements/marked-element#^1.1.3",
+    "app-route": "PolymerElements/app-route#^0.9.2",
+    "zeal-styles": "mauijim/zeal-styles#^1.0.0-beta.7",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.8"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
