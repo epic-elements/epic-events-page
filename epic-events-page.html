@@ -275,7 +275,7 @@ Example:
                     </div>
                     <h3>[[item.teaser]]</h3>
                     <p class="eventDetails">[[item.truncatedDetails]]</p>
-                    <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
+                    <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                   </div>
                 </div>
               </div>
@@ -301,7 +301,7 @@ Example:
                     </div>
                     <h3>[[item.teaser]]</h3>
                     <p class="eventDetails">[[item.truncatedDetails]]</p>
-                    <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
+                    <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                   </div>
                 </div>
               </div>
@@ -421,7 +421,7 @@ Example:
           'featuredImage': response.items[i].fields.featuredImage.fields.file.url,
           'locationString': response.items[i].fields.locationString,
           'name': response.items[i].fields.name,
-          'slug': response.items[i].fields.slug,
+          'slug': '/events/' + response.items[i].fields.slug,
           'startDate': response.items[i].fields.startDate,
           'teaser': response.items[i].fields.teaser,
           'video': response.items[i].fields.video,
