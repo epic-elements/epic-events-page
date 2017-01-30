@@ -121,7 +121,7 @@ Example:
     }
 
     .pastEvents .event .card .content {
-      opacity: .6;
+      /*opacity: .6;*/
     }
 
     .pastEvents .event .card .content .details {
@@ -426,7 +426,10 @@ Example:
           'teaser': response.items[i].fields.teaser,
           'video': response.items[i].fields.video,
           'truncatedDetails': truncatedDetails,
-          'startAndEnd': startAndEnd
+          'startAndEnd': startAndEnd,
+          'heading': response.items[i].fields.name,
+          'subheading': startAndEnd,
+          'ctaText': 'Learn More'
         });
       }
     },
