@@ -398,19 +398,23 @@ Example:
 
             <label for="details">What</label>
             <h3>[[teaser]]</h3>
+
+            <!-- Event details -->
             <marked-element class="description" markdown="[[details]]" id="details"></marked-element>
 
-            <template is="dom-if" if="[[externalUrl]]">
-              <a href="[[externalUrl]]" class="button" target="_blank">[[name]]</a>
-            </template>
+            <div class="externalLinks">
+              <template is="dom-if" if="[[externalUrl]]">
+                <a href="[[externalUrl]]" class="button" target="_blank">[[name]]</a>
+              </template>
 
-            <template is="dom-if" if="[[blogUrl]]">
-              <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
-            </template>
+              <template is="dom-if" if="[[blogUrl]]">
+                <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
+              </template>
 
-            <template is="dom-if" if="[[facebookUrl]]">
-              <a href="[[facebookUrl]]" class="button facebook" target="_blank">Event on Facebook</a>
-            </template>
+              <template is="dom-if" if="[[facebookUrl]]">
+                <a href="[[facebookUrl]]" class="button facebook" target="_blank">Event on Facebook</a>
+              </template>
+            </div>
           </div>
         </section>
 
