@@ -96,13 +96,13 @@ Example:
       align-content: flex-start;
       flex-flow: row wrap;
       /*
-              Playing with a masonry-like display. Problems include that the order is top-down, then wrap... and that the container needs a fixed height.
+        Playing with a masonry-like display. Problems include that the order is top-down, then wrap... and that the container needs a fixed height.
 
-                  justify-content: flex-start;
-                  align-items: flex-start;
-                  align-content: space-between;
-                  flex-flow: column wrap;
-            */
+            justify-content: flex-start;
+            align-items: flex-start;
+            align-content: space-between;
+            flex-flow: column wrap;
+      */
     }
 
     .pastEvents .event .card .imageBackground {
@@ -120,12 +120,12 @@ Example:
       top: 0
     }
 
-    .pastEvents .event .card .content {
-      /*opacity: .6;*/
+    .event h2 {
+      padding: 0.5em 0;
     }
 
-    .pastEvents .event .card .content .details {
-      display: none
+    .event .card .content h3 {
+      font-weight: normal;
     }
 
     .event {
@@ -167,19 +167,21 @@ Example:
     .event .card .content .details {
       border-right: 0;
       border-left: 0;
-      padding: 0;
+      padding: 1em 0;
       text-align: left;
       display: flex;
       flex-flow: row nowrap;
       justify-content: flex-start;
       align-items: stretch;
+      border-bottom: 1px solid #999;
+      border-top: 1px solid #999;
     }
 
     .event .card .content .details p {
       display: inline-block;
       flex-basis: 50%;
       flex-grow: 1;
-      margin-bottom: 0;
+      margin: 0;
       padding-right: 1em;
     }
 
@@ -262,7 +264,7 @@ Example:
           <h2>Upcoming Events</h2>
 
           <div class="upcomingEvents">
-            <template is="dom-repeat" items="{{events}}" filter="isUpcoming">
+            <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateDesc">
               <div class="event">
                 <div class="card">
                   <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
@@ -274,7 +276,9 @@ Example:
                       <p class="startDate">[[item.startAndEnd]]</p>
                     </div>
                     <h3>[[item.teaser]]</h3>
-                    <p class="eventDetails">[[item.truncatedDetails]]</p>
+                    <template is="dom-if" if="[[showDetailsPreview]]">
+                      <p class="eventDetails">[[item.truncatedDetails]]</p>
+                    </template>
                     <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                   </div>
                 </div>
@@ -288,7 +292,7 @@ Example:
           <h2>Past Events</h2>
 
           <div class="pastEvents">
-            <template is="dom-repeat" items="{{events}}" filter="isPast">
+            <template is="dom-repeat" items="{{events}}" filter="isPast" sort="sortByDateDesc">
               <div class="event">
                 <div class="card">
                   <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
@@ -300,7 +304,9 @@ Example:
                       <p class="startDate">[[item.startAndEnd]]</p>
                     </div>
                     <h3>[[item.teaser]]</h3>
-                    <p class="eventDetails">[[item.truncatedDetails]]</p>
+                    <template is="dom-if" if="[[showDetailsPreview]]">
+                      <p class="eventDetails">[[item.truncatedDetails]]</p>
+                    </template>
                     <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                   </div>
                 </div>
@@ -341,8 +347,16 @@ Example:
         notify: true
       },
       maxDetailsChars: {
-        Type: Number,
+        type: Number,
         value: 150
+      },
+      ctaButtonText: {
+        type: String,
+        value: "Learn More"
+      },
+      showDetailsPreview: {
+        type: Boolean,
+        value: false
       }
     },
 
@@ -352,6 +366,18 @@ Example:
     ],
 
     ready: function() {},
+
+    sortByDateDesc: function(a, b) {
+      var isAfter = moment(a.startDate).isAfter(b.startDate);
+
+      if(isAfter) {
+        // sort a before b
+        return -1;
+      } else {
+        // sort b before a
+        return 1;
+      }
+    },
 
     isPast: function(event) {
       return !this.isUpcoming(event);
@@ -380,7 +406,7 @@ Example:
       for (var i = 0; i < response.items.length; i += 1) {
         // format event start date
         var longStartDate = moment(response.items[i].fields.startDate).format("ddd, MMM D h:mmA"),
-          shortStartDate = moment(response.items[i].fields.startDate).format("M/D/YY hA");
+            shortStartDate = moment(response.items[i].fields.startDate).format("M/D/YY hA");
 
         /*
           Time Formatting
@@ -412,6 +438,12 @@ Example:
           truncatedDetails = response.items[i].fields.details;
         }
 
+        // prevent crashing page if featuredImage isn't defined or published
+        if(response.items[i].fields.featuredImage == undefined) {
+          console.error("Event \"" + response.items[i].fields.name + "\" missing featured image; skipping adding event to page.");
+          continue;
+        }
+
         this.push('events', {
           'blogUrl': response.items[i].fields.blogUrl,
           'details': response.items[i].fields.details,
@@ -429,7 +461,7 @@ Example:
           'startAndEnd': startAndEnd,
           'heading': response.items[i].fields.name,
           'subheading': startAndEnd,
-          'ctaText': 'Learn More'
+          'ctaText': this.ctaButtonText
         });
       }
     },
