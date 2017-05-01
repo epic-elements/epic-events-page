@@ -9,7 +9,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../polymer/polymer.html" />
-<link rel="import" href="../iron-pages/iron-pages.html" />
 <link rel="import" href="../epic-slider/epic-slider.html" />
 <link rel="import" href="../zeal-navbar/zeal-navbar.html" />
 <link rel="import" href="../zeal-footer/zeal-footer.html" />
@@ -18,9 +17,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="include-masonry.html" />
 <link rel="import" href="include-moment.html" />
 <link rel="import" href="../app-route/app-route.html">
-<link rel="import" href="../app-route/app-location.html">
-<link rel="import" href="../zeal-styles/zeal-styles.html" />
-<link rel="import" href="epic-event-detail-page.html" />
 
 <!--
 An events landing page
@@ -246,78 +242,82 @@ Example:
   <template>
     <app-route route="[[route]]" pattern="/:slug" data="{{data}}" tail="{{tail}}" active="{{isDetail}}"></app-route>
 
-    <template is="dom-if" if="[[data.slug]]">
-      <epic-event-detail-page event-slug="[[data.slug]]"></epic-event-detail-page>
-    </template>
+    <epic-contentful
+      token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086"
+      space="1kzutnf7jc3r"
+      content-type="events"
+      entries="{{entries}}"
+      limit="9"
+      skip="0"
+      order-by="fields.name"
+      mode="entries">
 
-    <template is="dom-if" if="[[!data.slug]]">
-      <epic-contentful token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086" space="1kzutnf7jc3r" content-type="events" entries="{{entries}}"></epic-contentful>
+    </epic-contentful>
 
-      <zeal-navbar></zeal-navbar>
+    <zeal-navbar></zeal-navbar>
 
-      <div id="pageContent" class="main">
+    <div id="pageContent" class="main">
 
-          <div class="heroTop">
-            <h1>Events &amp; Happenings</h1>
-          </div>
+        <div class="heroTop">
+          <h1>Events &amp; Happenings</h1>
+        </div>
 
-          <h2>Upcoming Events</h2>
+        <h2>Upcoming Events</h2>
 
-          <div class="upcomingEvents">
-            <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateDesc">
-              <div class="event">
-                <div class="card">
-                  <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
+        <div class="upcomingEvents">
+          <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateDesc">
+            <div class="event">
+              <div class="card">
+                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
+                </div>
+                <div class="content">
+                  <h2>[[item.name]]</h2>
+                  <div class="details">
+                    <p class="location">[[item.locationString]]</p>
+                    <p class="startDate">[[item.startAndEnd]]</p>
                   </div>
-                  <div class="content">
-                    <h2>[[item.name]]</h2>
-                    <div class="details">
-                      <p class="location">[[item.locationString]]</p>
-                      <p class="startDate">[[item.startAndEnd]]</p>
-                    </div>
-                    <h3>[[item.teaser]]</h3>
-                    <template is="dom-if" if="[[showDetailsPreview]]">
-                      <p class="eventDetails">[[item.truncatedDetails]]</p>
-                    </template>
-                    <a href="[[item.slug]]" class="moreDetails">Learn More</a>
-                  </div>
+                  <h3>[[item.teaser]]</h3>
+                  <template is="dom-if" if="[[showDetailsPreview]]">
+                    <p class="eventDetails">[[item.truncatedDetails]]</p>
+                  </template>
+                  <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                 </div>
               </div>
-            </template>
-          </div>
+            </div>
+          </template>
+        </div>
 
-          <!-- featured events slider -->
-          <epic-slider min-height="500px" slides="{{featuredUpcomingEvents}}"></epic-slider>
+        <!-- featured events slider -->
+        <epic-slider min-height="500px" slides="{{featuredUpcomingEvents}}"></epic-slider>
 
-          <h2>Past Events</h2>
+        <h2>Past Events</h2>
 
-          <div class="pastEvents">
-            <template is="dom-repeat" items="{{events}}" filter="isPast" sort="sortByDateDesc">
-              <div class="event">
-                <div class="card">
-                  <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
+        <div class="pastEvents">
+          <template is="dom-repeat" items="{{events}}" filter="isPast" sort="sortByDateDesc">
+            <div class="event">
+              <div class="card">
+                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
+                </div>
+                <div class="content">
+                  <h2>[[item.name]]</h2>
+                  <div class="details">
+                    <p class="location">[[item.locationString]]</p>
+                    <p class="startDate">[[item.startAndEnd]]</p>
                   </div>
-                  <div class="content">
-                    <h2>[[item.name]]</h2>
-                    <div class="details">
-                      <p class="location">[[item.locationString]]</p>
-                      <p class="startDate">[[item.startAndEnd]]</p>
-                    </div>
-                    <h3>[[item.teaser]]</h3>
-                    <template is="dom-if" if="[[showDetailsPreview]]">
-                      <p class="eventDetails">[[item.truncatedDetails]]</p>
-                    </template>
-                    <a href="[[item.slug]]" class="moreDetails">Learn More</a>
-                  </div>
+                  <h3>[[item.teaser]]</h3>
+                  <template is="dom-if" if="[[showDetailsPreview]]">
+                    <p class="eventDetails">[[item.truncatedDetails]]</p>
+                  </template>
+                  <a href="[[item.slug]]" class="moreDetails">Learn More</a>
                 </div>
               </div>
-            </template>
-          </div>
+            </div>
+          </template>
+        </div>
 
-      </div>
+    </div>
 
-      <zeal-footer></zeal-footer>
-    </template>
+    <zeal-footer></zeal-footer>
   </template>
 </dom-module>
 
