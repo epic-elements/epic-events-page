@@ -345,7 +345,7 @@ Example:
 
     <div id="pageContent" class="main">
 
-      <div class="heroHeader" style$="background-image: url([[featuredImage.url]])">
+      <div class="heroHeader" style$="background-image: url([[featuredImage.url]]?q=90)">
         <a href="/events/" class="events">&#8249; Back to Events</a>
         <div class="center">
           <h1 class="eventName">{{name}}</h1>
@@ -381,7 +381,7 @@ Example:
                   <img src="[[photos.0.url]]" alt="[[name]]" />
                 </template>
                 <template is="dom-if" if="[[!photos.0.url]]">
-                  <img src="[[featuredImage.url]]" alt="[[name]]" />
+                  <img src="[[featuredImage.url]]?q=90" alt="[[name]]" />
                 </template>
               </template>
             </div>
