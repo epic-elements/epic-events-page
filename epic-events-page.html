@@ -39,7 +39,7 @@ Example:
 
     .main {
       width: 100%;
-      background-image: url("img/decorative-texture-1.png");
+      background-image: url("https://images.contentful.com/1kzutnf7jc3r/1znLeKp4kAauaQogyy4smm/b8f1aa8298fc5fd82b9db4796e1052aa/decorative-texture-1.png");
       background-repeat: repeat
     }
 
@@ -68,7 +68,7 @@ Example:
 
     .heroTop {
       padding: 50px 1em;
-      background: url("img/events-hero.jpg") center center no-repeat;
+      background: url("https://images.contentful.com/1kzutnf7jc3r/3k7umwQUDYuSq8SS2IaMW6/376d5f7163db9efc618b09e833f07603/events-hero.jpg?q=80") center center no-repeat;
       background-size: cover;
       color: white;
     }
@@ -200,10 +200,6 @@ Example:
       cursor: pointer;
     }
 
-    epic-slider {
-      width: 100%;
-    }
-
     @media screen and (max-width: 991px) {
       .heroTop h1 {
         line-height: 1em;
@@ -268,7 +264,7 @@ Example:
           <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateAsc">
             <div class="event">
               <div class="card">
-                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
+                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]?w=[[cardImageWidth]]);">
                 </div>
                 <div class="content">
                   <h2>[[item.name]]</h2>
@@ -296,7 +292,7 @@ Example:
           <template is="dom-repeat" items="{{events}}" filter="isPast" sort="sortByDateDesc">
             <div class="event">
               <div class="card">
-                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
+                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]?w=[[cardImageWidth]]);">
                 </div>
                 <div class="content">
                   <h2>[[item.name]]</h2>
@@ -357,6 +353,10 @@ Example:
       showDetailsPreview: {
         type: Boolean,
         value: false
+      },
+      cardImageWidth: {
+        type: Number,
+        value: 640
       }
     },
 
