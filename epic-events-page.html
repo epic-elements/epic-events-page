@@ -265,7 +265,7 @@ Example:
         <h2>Upcoming Events</h2>
 
         <div class="upcomingEvents">
-          <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateDesc">
+          <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateAsc">
             <div class="event">
               <div class="card">
                 <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
@@ -367,15 +367,15 @@ Example:
 
     ready: function() {},
 
-    sortByDateDesc: function(a, b) {
+    sortByDateAsc: function(a, b) {
       var isAfter = moment(a.startDate).isAfter(b.startDate);
 
       if(isAfter) {
         // sort a before b
-        return -1;
+        return 1;
       } else {
         // sort b before a
-        return 1;
+        return -1;
       }
     },
 
