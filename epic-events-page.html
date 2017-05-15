@@ -264,7 +264,7 @@ Example:
           <template is="dom-repeat" items="{{events}}" filter="isUpcoming" sort="sortByDateAsc">
             <div class="event">
               <div class="card">
-                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]?w=[[cardImageWidth]]);">
+                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
                 </div>
                 <div class="content">
                   <h2>[[item.name]]</h2>
@@ -292,7 +292,7 @@ Example:
           <template is="dom-repeat" items="{{events}}" filter="isPast" sort="sortByDateDesc">
             <div class="event">
               <div class="card">
-                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]?w=[[cardImageWidth]]);">
+                <div class="imageBackground" style$="background-image: url([[item.featuredImage]]);">
                 </div>
                 <div class="content">
                   <h2>[[item.name]]</h2>
@@ -444,13 +444,21 @@ Example:
           continue;
         }
 
+        // reduce featuredImage filesize
+        var featuredImage = response.items[i].fields.featuredImage.fields.file.url;
+        if(response.items[i].fields.featuredEvent) {
+          featuredImage += '?q=80';
+        } else {
+          featuredImage += '?q=80&w=' + this.cardImageWidth;
+        }
+
         this.push('events', {
           'blogUrl': response.items[i].fields.blogUrl,
           'details': response.items[i].fields.details,
           'endDate': response.items[i].fields.endDate,
           'externalUrl': response.items[i].fields.externalUrl,
           'featuredEvent': response.items[i].fields.featuredEvent,
-          'featuredImage': response.items[i].fields.featuredImage.fields.file.url,
+          'featuredImage': featuredImage,
           'locationString': response.items[i].fields.locationString,
           'name': response.items[i].fields.name,
           'slug': '/events/' + response.items[i].fields.slug,
