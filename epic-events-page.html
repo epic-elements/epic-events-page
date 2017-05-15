@@ -14,7 +14,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../zeal-footer/zeal-footer.html" />
 <link rel="import" href="../epic-contentful/epic-contentful.html" />
 <link rel="import" href="../epic-polyfills/epic-polyfills.html" />
-<link rel="import" href="include-masonry.html" />
 <link rel="import" href="include-moment.html" />
 <link rel="import" href="../app-route/app-route.html">
 
@@ -34,7 +33,7 @@ Example:
       width: 100%;
       margin: 0;
       padding: 0;
-      font-family: "Interstate", Helvetica, arial, sans-serif;
+      font-family: Helvetica, arial, sans-serif;
     }
 
     .main {
@@ -54,7 +53,8 @@ Example:
       font-size: 5em;
       padding: 1em 0;
       text-transform: uppercase;
-      background-color: transparent
+      background-color: transparent;
+      font-family: "Interstate", Helvetica, arial, sans-serif;
     }
 
     .main h2 {
@@ -63,7 +63,8 @@ Example:
       margin: 1em auto;
       font-weight: bold;
       text-transform: uppercase;
-      line-height: normal
+      line-height: normal;
+      font-family: "Interstate", Helvetica, arial, sans-serif;
     }
 
     .heroTop {
@@ -77,7 +78,8 @@ Example:
       padding: 0;
       font-size: 5em;
       text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
-      line-height: 300px
+      line-height: 300px;
+      font-family: "Interstate", Helvetica, arial, sans-serif;
     }
 
     .pastEvents,
@@ -86,19 +88,19 @@ Example:
       width: 90%;
       margin: 0 auto;
       max-width: 1600px;
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      align-content: flex-start;
-      flex-flow: row wrap;
-      /*
-        Playing with a masonry-like display. Problems include that the order is top-down, then wrap... and that the container needs a fixed height.
-
-            justify-content: flex-start;
-            align-items: flex-start;
-            align-content: space-between;
-            flex-flow: column wrap;
-      */
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start;
+      -webkit-box-align: start;
+          -ms-flex-align: start;
+              align-items: flex-start;
+      -ms-flex-line-pack: start;
+          align-content: flex-start;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
     }
 
     .pastEvents .event .card .imageBackground {
@@ -108,6 +110,7 @@ Example:
     .pastEvents .event .card .imageBackground:after {
       content: ' ';
       background-color: rgba(255, 255, 255, 0);
+      background: -webkit-linear-gradient(bottom, #fff, rgba(255, 255, 255, 0));
       background: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
       width: 100%;
       height: 100%;
@@ -122,10 +125,12 @@ Example:
 
     .event .card .content h3 {
       font-weight: normal;
+      line-height: 1.25;
     }
 
     .event {
-      flex-basis: 33.33%;
+      -ms-flex-preferred-size: 33.33%;
+          flex-basis: 33.33%;
       padding: 0 1em;
       box-sizing: border-box;
       margin: 0 0 30px;
@@ -165,20 +170,34 @@ Example:
       border-left: 0;
       padding: 1em 0;
       text-align: left;
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
-      flex-flow: row nowrap;
-      justify-content: flex-start;
-      align-items: stretch;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start;
+      -webkit-box-align: stretch;
+          -ms-flex-align: stretch;
+              align-items: stretch;
       border-bottom: 1px solid #999;
       border-top: 1px solid #999;
     }
 
     .event .card .content .details p {
       display: inline-block;
-      flex-basis: 50%;
-      flex-grow: 1;
+      -ms-flex-preferred-size: 50%;
+          flex-basis: 50%;
+      -webkit-box-flex: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
       margin: 0;
       padding-right: 1em;
+    }
+
+    .event .card .content .details p.startDate {
+      text-align: right;
     }
 
     .event .card .content> * {
@@ -200,6 +219,67 @@ Example:
       cursor: pointer;
     }
 
+    .loadMoreEvents {
+      text-align: center;
+    }
+
+    .loadMoreEvents a{
+      display: inline-block;
+      background: #fff;
+      color: white;
+      padding: 1em;
+      border: 1px solid #666;
+      color: #666;
+      margin: 1em auto 2em;
+    }
+
+    @-moz-keyframes spin {
+      from { -moz-transform: rotate(0deg); }
+      to { -moz-transform: rotate(359deg); }
+    }
+    @-webkit-keyframes spin {
+      from { -webkit-transform: rotate(0deg); }
+      to { -webkit-transform: rotate(359deg); }
+    }
+    @keyframes spin {
+      from {transform:rotate(0deg);}
+      to {transform:rotate(359deg);}
+    }
+
+    .loadMoreEvents a span.loading {
+      -webkit-animation-name: spin;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+      -moz-animation-name: spin;
+      -moz-animation-duration: 1s;
+      -moz-animation-iteration-count: infinite;
+      -moz-animation-timing-function: linear;
+      -ms-animation-name: spin;
+      -ms-animation-duration: 1s;
+      -ms-animation-iteration-count: infinite;
+      -ms-animation-timing-function: linear;
+
+      animation-name: spin;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    .loadMoreEvents a:hover {
+      background: #eee;
+    }
+
+    .loadMoreEvents a span {
+      font-size: 2em;
+      -webkit-transform: rotate(90deg) scale(-1, 1);
+              transform: rotate(90deg) scale(-1, 1);
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: .25em;
+      line-height: 1em;
+    }
+
     @media screen and (max-width: 991px) {
       .heroTop h1 {
         line-height: 1em;
@@ -207,7 +287,8 @@ Example:
         font-size: 4em
       }
       .event {
-        flex-basis: 50%;
+        -ms-flex-preferred-size: 50%;
+            flex-basis: 50%;
       }
       .event .card .content h2 {
         font-size: 2rem
@@ -229,25 +310,24 @@ Example:
         line-height: 1.5em
       }
       .event {
-        flex-basis: 100%;
+        -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
         padding: 10px 0 !important
       }
     }
   </style>
 
   <template>
-    <app-route route="[[route]]" pattern="/:slug" data="{{data}}" tail="{{tail}}" active="{{isDetail}}"></app-route>
 
     <epic-contentful
       token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086"
       space="1kzutnf7jc3r"
       content-type="events"
       entries="{{entries}}"
-      limit="9"
+      limit="20"
       skip="0"
-      order-by="fields.name"
+      order-by="-fields.startDate"
       mode="entries">
-
     </epic-contentful>
 
     <zeal-navbar></zeal-navbar>
@@ -276,7 +356,7 @@ Example:
                   <template is="dom-if" if="[[showDetailsPreview]]">
                     <p class="eventDetails">[[item.truncatedDetails]]</p>
                   </template>
-                  <a href="[[item.slug]]" class="moreDetails">Learn More</a>
+                  <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
                 </div>
               </div>
             </div>
@@ -304,11 +384,15 @@ Example:
                   <template is="dom-if" if="[[showDetailsPreview]]">
                     <p class="eventDetails">[[item.truncatedDetails]]</p>
                   </template>
-                  <a href="[[item.slug]]" class="moreDetails">Learn More</a>
+                  <a href="/events/[[item.slug]]" class="moreDetails">Learn More</a>
                 </div>
               </div>
             </div>
           </template>
+        </div>
+
+        <div class="loadMoreEvents">
+          <a href="#" id="loadMoreEvents"><span>&#8634;</span> Load More Events</a>
         </div>
 
     </div>
@@ -361,11 +445,21 @@ Example:
     },
 
     observers: [
-      'eventsChanged(events.splices)',
-      '_observeEntries(entries)',
+      '_observeEntries(entries)'
     ],
 
+    listeners: {
+      'loadMoreEvents.tap': 'loadMoreEvents'
+    },
+
     ready: function() {},
+
+    loadMoreEvents: function(e) {
+      e.preventDefault();
+      $('#loadMoreEvents span').addClass('loading');
+      var limit = parseInt($('epic-contentful').attr('limit'));
+      $('epic-contentful').attr('limit', limit + 9);
+    },
 
     sortByDateAsc: function(a, b) {
       var isAfter = moment(a.startDate).isAfter(b.startDate);
@@ -376,6 +470,18 @@ Example:
       } else {
         // sort b before a
         return -1;
+      }
+    },
+
+    sortByDateDesc: function(a, b) {
+      var isAfter = moment(a.startDate).isAfter(b.startDate);
+
+      if(isAfter) {
+        // sort a before b
+        return -1;
+      } else {
+        // sort b before a
+        return 1;
       }
     },
 
@@ -391,86 +497,108 @@ Example:
       return event.featuredEvent == true;
     },
 
-    eventsChanged: function(splices) {
-      this.featuredUpcomingEvents = this.events.filter((function(element, index, array) {
-        return (element.featuredEvent == true && this.isUpcoming(element))
-      }).bind(this));
-    },
-
     _observeEntries: function(response) {
       if (Object.keys(response).length === 0 && response.constructor === Object || !response || response == null) {
         return;
       }
 
+      // stop loading animation
+      $('#loadMoreEvents span').removeClass('loading');
+
       // update this.events
       for (var i = 0; i < response.items.length; i += 1) {
-        // format event start date
-        var longStartDate = moment(response.items[i].fields.startDate).format("ddd, MMM D h:mmA"),
-            shortStartDate = moment(response.items[i].fields.startDate).format("M/D/YY hA");
+        var cont = true;
 
-        /*
-          Time Formatting
-
-          If the event lasts more than one day, exclude the start/end time.
-          If the event is only one day, show the start and end times.
-
-          i.e.
-            Jun 30 6:00PM
-            Jun 30 - Jul 1
-        */
-
-        var startDay = moment(response.items[i].fields.startDate).format("D"),
-          endDay = moment(response.items[i].fields.endDate).format("D"),
-          startAndEnd,
-          truncatedDetails;
-
-        if (startDay !== endDay) {
-          startAndEnd = moment(response.items[i].fields.startDate).format("MMM D - ") + moment(response.items[i].fields.endDate).format("MMM D");
-        } else {
-          startAndEnd = moment(response.items[i].fields.startDate).format("MMM D h:mmA");
+        // check that event not already in array
+        for(var j = 0; j < this.events.length; j += 1) {
+          if(response.items[i].fields.slug == this.events[j].slug) {
+            cont = false;
+          }
         }
 
-        // truncate event details to first x characters
-        if (response.items[i].fields.details && response.items[i].fields.details.length > this.maxDetailsChars) {
-          truncatedDetails = response.items[i].fields.details.substr(0, this.maxDetailsChars);
-          truncatedDetails += '...';
-        } else {
-          truncatedDetails = response.items[i].fields.details;
-        }
-
-        // prevent crashing page if featuredImage isn't defined or published
-        if(response.items[i].fields.featuredImage == undefined) {
-          console.error("Event \"" + response.items[i].fields.name + "\" missing featured image; skipping adding event to page.");
+        if(!cont) {
+          // event already in array, no need to process or add to this.events
           continue;
-        }
-
-        // reduce featuredImage filesize
-        var featuredImage = response.items[i].fields.featuredImage.fields.file.url;
-        if(response.items[i].fields.featuredEvent) {
-          featuredImage += '?q=80';
         } else {
-          featuredImage += '?q=80&w=' + this.cardImageWidth;
-        }
+          // event not already in array, process and add to this.events
 
-        this.push('events', {
-          'blogUrl': response.items[i].fields.blogUrl,
-          'details': response.items[i].fields.details,
-          'endDate': response.items[i].fields.endDate,
-          'externalUrl': response.items[i].fields.externalUrl,
-          'featuredEvent': response.items[i].fields.featuredEvent,
-          'featuredImage': featuredImage,
-          'locationString': response.items[i].fields.locationString,
-          'name': response.items[i].fields.name,
-          'slug': '/events/' + response.items[i].fields.slug,
-          'startDate': response.items[i].fields.startDate,
-          'teaser': response.items[i].fields.teaser,
-          'video': response.items[i].fields.video,
-          'truncatedDetails': truncatedDetails,
-          'startAndEnd': startAndEnd,
-          'heading': response.items[i].fields.name,
-          'subheading': startAndEnd,
-          'ctaText': this.ctaButtonText
-        });
+          // format event start date
+          var longStartDate = moment(response.items[i].fields.startDate).format("ddd, MMM D YYYY h:mmA"),
+              shortStartDate = moment(response.items[i].fields.startDate).format("M/D/YYYY hA");
+
+          /*
+            Time Formatting
+
+            If the event lasts more than one day, exclude the start/end time.
+            If the event is only one day, show the start and end times.
+
+            i.e.
+              Jun 30 6:00PM
+              Jun 30 - Jul 1
+          */
+
+          var startDay = moment(response.items[i].fields.startDate).format("D"),
+            endDay = moment(response.items[i].fields.endDate).format("D"),
+            startAndEnd,
+            truncatedDetails;
+
+          if (startDay !== endDay) {
+            startAndEnd = moment(response.items[i].fields.startDate).format("MMM D YYYY - ") + moment(response.items[i].fields.endDate).format("MMM D YYYY");
+          } else {
+            startAndEnd = moment(response.items[i].fields.startDate).format("MMM D YYYY h:mmA");
+          }
+
+          // truncate event details to first x characters
+          if (response.items[i].fields.details && response.items[i].fields.details.length > this.maxDetailsChars) {
+            truncatedDetails = response.items[i].fields.details.substr(0, this.maxDetailsChars);
+            truncatedDetails += '...';
+          } else {
+            truncatedDetails = response.items[i].fields.details;
+          }
+
+          // prevent crashing page if featuredImage isn't defined or published
+          if(response.items[i].fields.featuredImage == undefined) {
+            console.error("Event \"" + response.items[i].fields.name + "\" missing featured image; skipping adding event to page.");
+            continue;
+          }
+
+          // reduce featuredImage filesize
+          var featuredImage = response.items[i].fields.featuredImage.fields.file.url;
+          if(response.items[i].fields.featuredEvent) {
+            featuredImage += '?q=80';
+          } else {
+            featuredImage += '?q=80&w=' + this.cardImageWidth;
+          }
+
+          // create event object
+          var event = {
+            'blogUrl': response.items[i].fields.blogUrl,
+            'details': response.items[i].fields.details,
+            'endDate': response.items[i].fields.endDate,
+            'externalUrl': response.items[i].fields.externalUrl,
+            'featuredEvent': response.items[i].fields.featuredEvent,
+            'featuredImage': featuredImage,
+            'locationString': response.items[i].fields.locationString,
+            'name': response.items[i].fields.name,
+            'slug': response.items[i].fields.slug,
+            'startDate': response.items[i].fields.startDate,
+            'teaser': response.items[i].fields.teaser,
+            'video': response.items[i].fields.video,
+            'truncatedDetails': truncatedDetails,
+            'startAndEnd': startAndEnd,
+            'heading': response.items[i].fields.name,
+            'subheading': startAndEnd,
+            'ctaText': this.ctaButtonText
+          };
+
+          this.push('events', event);
+
+          // add to featured events if featured & upcoming
+          if(event.featuredEvent && moment(event.startDate).isAfter(moment())) {
+            this.push('featuredUpcomingEvents', event);
+          }
+
+        }
       }
     },
   })
