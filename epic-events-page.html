@@ -319,8 +319,8 @@ Example:
   <template>
 
     <epic-contentful
-      token="7293987ea91368b8cae485aeadc4037af8253ae4706e2fa0400f9a831aa93086"
-      space="1kzutnf7jc3r"
+      token="[[contentfulToken]]"
+      space="[[contentfulSpace]]"
       content-type="events"
       entries="{{entries}}"
       limit="20"
@@ -440,6 +440,14 @@ Example:
       cardImageWidth: {
         type: Number,
         value: 640
+      },
+      contentfulToken: {
+        Type: String,
+        value: ''
+      },
+      contentfulSpace: {
+        Type: String,
+        value: ''
       }
     },
 
