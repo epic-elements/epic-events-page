@@ -10,10 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="../epic-slider/epic-slider.html" />
-<link rel="import" href="../zeal-navbar/zeal-navbar.html" />
-<link rel="import" href="../zeal-footer/zeal-footer.html" />
 <link rel="import" href="../epic-contentful/epic-contentful.html" />
-<link rel="import" href="../epic-polyfills/epic-polyfills.html" />
 <link rel="import" href="include-moment.html" />
 
 <!--
@@ -26,297 +23,296 @@ Example:
 @demo
 -->
 <dom-module id="epic-events-page">
-  <style>
-    :host {
-      display: block;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      font-family: Helvetica, arial, sans-serif;
-    }
-
-    .main {
-      width: 100%;
-      background-image: url("https://images.contentful.com/1kzutnf7jc3r/1znLeKp4kAauaQogyy4smm/b8f1aa8298fc5fd82b9db4796e1052aa/decorative-texture-1.png");
-      background-repeat: repeat
-    }
-
-    .main a {
-      color: #666;
-      text-decoration: none;
-      text-transform: uppercase
-    }
-
-    .main h1 {
-      text-align: center;
-      font-size: 5em;
-      padding: 1em 0;
-      text-transform: uppercase;
-      background-color: transparent;
-      font-family: "Interstate", Helvetica, arial, sans-serif;
-    }
-
-    .main h2 {
-      font-size: 42px;
-      text-align: center;
-      margin: 1em auto;
-      font-weight: bold;
-      text-transform: uppercase;
-      line-height: normal;
-      font-family: "Interstate", Helvetica, arial, sans-serif;
-    }
-
-    .heroTop {
-      padding: 50px 1em;
-      background: url("https://images.contentful.com/1kzutnf7jc3r/3k7umwQUDYuSq8SS2IaMW6/376d5f7163db9efc618b09e833f07603/events-hero.jpg?q=80") center center no-repeat;
-      background-size: cover;
-      color: white;
-    }
-
-    .heroTop h1 {
-      padding: 0;
-      font-size: 5em;
-      text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
-      line-height: 300px;
-      font-family: "Interstate", Helvetica, arial, sans-serif;
-    }
-
-    .pastEvents,
-    .upcomingEvents {
-      position: relative;
-      width: 90%;
-      margin: 0 auto;
-      max-width: 1600px;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-pack: start;
-          -ms-flex-pack: start;
-              justify-content: flex-start;
-      -webkit-box-align: start;
-          -ms-flex-align: start;
-              align-items: flex-start;
-      -ms-flex-line-pack: start;
-          align-content: flex-start;
-      -ms-flex-flow: row wrap;
-          flex-flow: row wrap;
-    }
-
-    .pastEvents .event .card .imageBackground {
-      position: relative
-    }
-
-    .pastEvents .event .card .imageBackground:after {
-      content: ' ';
-      background-color: rgba(255, 255, 255, 0);
-      background: -webkit-linear-gradient(bottom, #fff, rgba(255, 255, 255, 0));
-      background: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0
-    }
-
-    .event h2 {
-      padding: 0.5em 0;
-    }
-
-    .event .card .content h3 {
-      font-weight: normal;
-      line-height: 1.25;
-    }
-
-    .event {
-      -ms-flex-preferred-size: 33.33%;
-          flex-basis: 33.33%;
-      padding: 0 1em;
-      box-sizing: border-box;
-      margin: 0 0 30px;
-    }
-
-    .event .card {
-      width: 100%;
-      background: white;
-      box-shadow: 0 0 5px #aaa
-    }
-
-    .event .card .imageBackground {
-      font-size: 0;
-      background-size: cover;
-      padding-top: 60%;
-      background-position: center center;
-    }
-
-    .event .card .content {
-      padding: 15px;
-      text-align: center
-    }
-
-    .event .card .content h2 {
-      margin: 0;
-      font-size: 1.6em;
-    }
-
-    .event .card .content h3 {
-      /*font-weight: normal;*/
-      /*font-size: 1em;*/
-      padding: 0;
-    }
-
-    .event .card .content .details {
-      border-right: 0;
-      border-left: 0;
-      padding: 1em 0;
-      text-align: left;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-      -webkit-box-pack: start;
-          -ms-flex-pack: start;
-              justify-content: flex-start;
-      -webkit-box-align: stretch;
-          -ms-flex-align: stretch;
-              align-items: stretch;
-      border-bottom: 1px solid #999;
-      border-top: 1px solid #999;
-    }
-
-    .event .card .content .details p {
-      display: inline-block;
-      -ms-flex-preferred-size: 50%;
-          flex-basis: 50%;
-      -webkit-box-flex: 1;
-          -ms-flex-positive: 1;
-              flex-grow: 1;
-      margin: 0;
-      padding-right: 1em;
-    }
-
-    .event .card .content .details p.startDate {
-      text-align: right;
-    }
-
-    .event .card .content> * {
-      text-align: left
-    }
-
-    .event .card .content a.moreDetails {
-      display: inline-block;
-      background: #c30;
-      padding: 1em 2em;
-      margin: 1em auto;
-      font-weight: bold;
-      color: white;
-      letter-spacing: .025em;
-    }
-
-    .event .card .content a.moreDetails:hover {
-      background: #a52900;
-      cursor: pointer;
-    }
-
-    .loadMoreEvents {
-      text-align: center;
-    }
-
-    .loadMoreEvents a{
-      display: inline-block;
-      background: #fff;
-      color: white;
-      padding: 1em;
-      border: 1px solid #666;
-      color: #666;
-      margin: 1em auto 2em;
-    }
-
-    @-moz-keyframes spin {
-      from { -moz-transform: rotate(0deg); }
-      to { -moz-transform: rotate(359deg); }
-    }
-    @-webkit-keyframes spin {
-      from { -webkit-transform: rotate(0deg); }
-      to { -webkit-transform: rotate(359deg); }
-    }
-    @keyframes spin {
-      from {transform:rotate(0deg);}
-      to {transform:rotate(359deg);}
-    }
-
-    .loadMoreEvents a span.loading {
-      -webkit-animation-name: spin;
-      -webkit-animation-duration: 1s;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-      -moz-animation-name: spin;
-      -moz-animation-duration: 1s;
-      -moz-animation-iteration-count: infinite;
-      -moz-animation-timing-function: linear;
-      -ms-animation-name: spin;
-      -ms-animation-duration: 1s;
-      -ms-animation-iteration-count: infinite;
-      -ms-animation-timing-function: linear;
-
-      animation-name: spin;
-      animation-duration: 1s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-    }
-
-    .loadMoreEvents a:hover {
-      background: #eee;
-    }
-
-    .loadMoreEvents a span {
-      font-size: 2em;
-      -webkit-transform: rotate(90deg) scale(-1, 1);
-              transform: rotate(90deg) scale(-1, 1);
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: .25em;
-      line-height: 1em;
-    }
-
-    @media screen and (max-width: 991px) {
-      .heroTop h1 {
-        line-height: 1em;
-        padding: 1em 20px;
-        font-size: 4em
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: Helvetica, arial, sans-serif;
       }
+
+      .main {
+        width: 100%;
+        background-image: url("https://images.contentful.com/1kzutnf7jc3r/1znLeKp4kAauaQogyy4smm/b8f1aa8298fc5fd82b9db4796e1052aa/decorative-texture-1.png");
+        background-repeat: repeat
+      }
+
+      .main a {
+        color: #666;
+        text-decoration: none;
+        text-transform: uppercase
+      }
+
+      .main h1 {
+        text-align: center;
+        font-size: 5em;
+        padding: 1em 0;
+        text-transform: uppercase;
+        background-color: transparent;
+        font-family: "Interstate", Helvetica, arial, sans-serif;
+      }
+
+      .main h2 {
+        font-size: 42px;
+        text-align: center;
+        margin: 1em auto;
+        font-weight: bold;
+        text-transform: uppercase;
+        line-height: normal;
+        font-family: "Interstate", Helvetica, arial, sans-serif;
+      }
+
+      .heroTop {
+        padding: 50px 1em;
+        background: url("https://images.contentful.com/1kzutnf7jc3r/3k7umwQUDYuSq8SS2IaMW6/376d5f7163db9efc618b09e833f07603/events-hero.jpg?q=80") center center no-repeat;
+        background-size: cover;
+        color: white;
+      }
+
+      .heroTop h1 {
+        padding: 0;
+        font-size: 5em;
+        text-shadow: 0 0 20px rgba(51, 51, 51, 0.5);
+        line-height: 300px;
+        font-family: "Interstate", Helvetica, arial, sans-serif;
+      }
+
+      .pastEvents,
+      .upcomingEvents {
+        position: relative;
+        width: 90%;
+        margin: 0 auto;
+        max-width: 1600px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+        -webkit-box-align: start;
+            -ms-flex-align: start;
+                align-items: flex-start;
+        -ms-flex-line-pack: start;
+            align-content: flex-start;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+      }
+
+      .pastEvents .event .card .imageBackground {
+        position: relative
+      }
+
+      .pastEvents .event .card .imageBackground:after {
+        content: ' ';
+        background-color: rgba(255, 255, 255, 0);
+        background: -webkit-linear-gradient(bottom, #fff, rgba(255, 255, 255, 0));
+        background: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0
+      }
+
+      .event h2 {
+        padding: 0.5em 0;
+      }
+
+      .event .card .content h3 {
+        font-weight: normal;
+        line-height: 1.25;
+      }
+
       .event {
+        -ms-flex-preferred-size: 33.33%;
+            flex-basis: 33.33%;
+        padding: 0 1em;
+        box-sizing: border-box;
+        margin: 0 0 30px;
+      }
+
+      .event .card {
+        width: 100%;
+        background: white;
+        box-shadow: 0 0 5px #aaa
+      }
+
+      .event .card .imageBackground {
+        font-size: 0;
+        background-size: cover;
+        padding-top: 60%;
+        background-position: center center;
+      }
+
+      .event .card .content {
+        padding: 15px;
+        text-align: center
+      }
+
+      .event .card .content h2 {
+        margin: 0;
+        font-size: 1.6em;
+      }
+
+      .event .card .content h3 {
+        /*font-weight: normal;*/
+        /*font-size: 1em;*/
+        padding: 0;
+      }
+
+      .event .card .content .details {
+        border-right: 0;
+        border-left: 0;
+        padding: 1em 0;
+        text-align: left;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+        -webkit-box-pack: start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+        -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+                align-items: stretch;
+        border-bottom: 1px solid #999;
+        border-top: 1px solid #999;
+      }
+
+      .event .card .content .details p {
+        display: inline-block;
         -ms-flex-preferred-size: 50%;
             flex-basis: 50%;
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
+        margin: 0;
+        padding-right: 1em;
       }
-      .event .card .content h2 {
-        font-size: 2rem
-      }
-      .event .card .content .eventDetails {
-        font-size: 1rem
-      }
-      .event .card .content .moreDetails {
-        font-size: 1rem
-      }
-    }
 
-    @media screen and (max-width: 768px) {
-      .heroTop {
-        padding: 50px 1em
+      .event .card .content .details p.startDate {
+        text-align: right;
       }
-      .heroTop h1 {
-        font-size: 3em;
-        line-height: 1.5em
-      }
-      .event {
-        -ms-flex-preferred-size: 100%;
-            flex-basis: 100%;
-        padding: 10px 0 !important
-      }
-    }
-  </style>
 
-  <template>
+      .event .card .content> * {
+        text-align: left
+      }
+
+      .event .card .content a.moreDetails {
+        display: inline-block;
+        background: #c30;
+        padding: 1em 2em;
+        margin: 1em auto;
+        font-weight: bold;
+        color: white;
+        letter-spacing: .025em;
+      }
+
+      .event .card .content a.moreDetails:hover {
+        background: #a52900;
+        cursor: pointer;
+      }
+
+      .loadMoreEvents {
+        text-align: center;
+      }
+
+      .loadMoreEvents a{
+        display: inline-block;
+        background: #fff;
+        color: white;
+        padding: 1em;
+        border: 1px solid #666;
+        color: #666;
+        margin: 1em auto 2em;
+      }
+
+      @-moz-keyframes spin {
+        from { -moz-transform: rotate(0deg); }
+        to { -moz-transform: rotate(359deg); }
+      }
+      @-webkit-keyframes spin {
+        from { -webkit-transform: rotate(0deg); }
+        to { -webkit-transform: rotate(359deg); }
+      }
+      @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(359deg);}
+      }
+
+      .loadMoreEvents a span.loading {
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+        -moz-animation-name: spin;
+        -moz-animation-duration: 1s;
+        -moz-animation-iteration-count: infinite;
+        -moz-animation-timing-function: linear;
+        -ms-animation-name: spin;
+        -ms-animation-duration: 1s;
+        -ms-animation-iteration-count: infinite;
+        -ms-animation-timing-function: linear;
+
+        animation-name: spin;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+
+      .loadMoreEvents a:hover {
+        background: #eee;
+      }
+
+      .loadMoreEvents a span {
+        font-size: 2em;
+        -webkit-transform: rotate(90deg) scale(-1, 1);
+                transform: rotate(90deg) scale(-1, 1);
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: .25em;
+        line-height: 1em;
+      }
+
+      @media screen and (max-width: 991px) {
+        .heroTop h1 {
+          line-height: 1em;
+          padding: 1em 20px;
+          font-size: 4em
+        }
+        .event {
+          -ms-flex-preferred-size: 50%;
+              flex-basis: 50%;
+        }
+        .event .card .content h2 {
+          font-size: 2rem
+        }
+        .event .card .content .eventDetails {
+          font-size: 1rem
+        }
+        .event .card .content .moreDetails {
+          font-size: 1rem
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .heroTop {
+          padding: 50px 1em
+        }
+        .heroTop h1 {
+          font-size: 3em;
+          line-height: 1.5em
+        }
+        .event {
+          -ms-flex-preferred-size: 100%;
+              flex-basis: 100%;
+          padding: 10px 0 !important
+        }
+      }
+    </style>
 
     <epic-contentful
       token="[[contentfulToken]]"
@@ -328,8 +324,6 @@ Example:
       order-by="-fields.startDate"
       mode="entries">
     </epic-contentful>
-
-    <zeal-navbar></zeal-navbar>
 
     <div id="pageContent" class="main">
 
@@ -396,7 +390,6 @@ Example:
 
     </div>
 
-    <zeal-footer></zeal-footer>
   </template>
 </dom-module>
 
