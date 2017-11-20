@@ -18,7 +18,7 @@ An events landing page
 
 Example:
 
-    <epic-events-page></epic-events-page>
+    <epic-events-page contentful-token="" contentful-space=""></epic-events-page>
 
 @demo
 -->
@@ -118,6 +118,13 @@ Example:
 
       .event h2 {
         padding: 0.5em 0;
+        overflow-wrap: break-word;
+        -webkit-hyphens: auto;
+           -moz-hyphens: auto;
+            -ms-hyphens: auto;
+                hyphens: auto;
+        width: 100%;
+        text-align: center;
       }
 
       .event .card .content h3 {
@@ -157,58 +164,38 @@ Example:
       }
 
       .event .card .content h3 {
-        /*font-weight: normal;*/
-        /*font-size: 1em;*/
+        font-weight: normal;
+        font-size: 1em;
         padding: 0;
+        text-align: center;
       }
 
       .event .card .content .details {
         border-right: 0;
         border-left: 0;
-        padding: 1em 0;
-        text-align: left;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
-        -webkit-box-pack: start;
-            -ms-flex-pack: start;
-                justify-content: flex-start;
-        -webkit-box-align: stretch;
-            -ms-flex-align: stretch;
-                align-items: stretch;
+        padding: .5em 0;
+        text-align: center;
         border-bottom: 1px solid #999;
         border-top: 1px solid #999;
       }
 
       .event .card .content .details p {
-        display: inline-block;
-        -ms-flex-preferred-size: 50%;
-            flex-basis: 50%;
-        -webkit-box-flex: 1;
-            -ms-flex-positive: 1;
-                flex-grow: 1;
-        margin: 0;
-        padding-right: 1em;
+        margin: .5em auto;
       }
 
-      .event .card .content .details p.startDate {
-        text-align: right;
-      }
-
-      .event .card .content> * {
-        text-align: left
+      .event .card .content {
+        padding: 0 1em;
       }
 
       .event .card .content a.moreDetails {
         display: inline-block;
         background: #c30;
         padding: 1em 2em;
-        margin: 1em auto;
+        margin: 1em auto 2em;
         font-weight: bold;
         color: white;
         letter-spacing: .025em;
+        text-align: center;
       }
 
       .event .card .content a.moreDetails:hover {
@@ -385,221 +372,220 @@ Example:
         </div>
 
         <div class="loadMoreEvents">
-          <a href="#" id="loadMoreEvents"><span>&#8634;</span> Load More Events</a>
+          <a href="#" id="loadMoreEvents" on-click="loadMoreEvents"><span>&#8634;</span> Load More Events</a>
         </div>
 
     </div>
 
   </template>
-</dom-module>
 
-<script>
-  Polymer({
-    is: 'epic-events-page',
+  <script>
+    class EpicEventsPage extends Polymer.Element {
+      static get is() { return 'epic-events-page' }
 
-    properties: {
-      entries: {
-        type: Object,
-        value: function() {
-          return {};
-        }
-      },
-      events: {
-        type: Array,
-        value: function() {
-          return [];
-        },
-        notify: true
-      },
-      featuredUpcomingEvents: {
-        type: Array,
-        value: function() {
-          return [];
-        },
-        notify: true
-      },
-      maxDetailsChars: {
-        type: Number,
-        value: 150
-      },
-      ctaButtonText: {
-        type: String,
-        value: "Learn More"
-      },
-      showDetailsPreview: {
-        type: Boolean,
-        value: false
-      },
-      cardImageWidth: {
-        type: Number,
-        value: 640
-      },
-      contentfulToken: {
-        Type: String,
-        value: ''
-      },
-      contentfulSpace: {
-        Type: String,
-        value: ''
-      }
-    },
-
-    observers: [
-      '_observeEntries(entries)'
-    ],
-
-    listeners: {
-      'loadMoreEvents.tap': 'loadMoreEvents'
-    },
-
-    ready: function() {},
-
-    loadMoreEvents: function(e) {
-      e.preventDefault();
-      $('#loadMoreEvents span').addClass('loading');
-      var limit = parseInt($('epic-contentful').attr('limit'));
-      $('epic-contentful').attr('limit', limit + 9);
-    },
-
-    sortByDateAsc: function(a, b) {
-      var isAfter = moment(a.startDate).isAfter(b.startDate);
-
-      if(isAfter) {
-        // sort a before b
-        return 1;
-      } else {
-        // sort b before a
-        return -1;
-      }
-    },
-
-    sortByDateDesc: function(a, b) {
-      var isAfter = moment(a.startDate).isAfter(b.startDate);
-
-      if(isAfter) {
-        // sort a before b
-        return -1;
-      } else {
-        // sort b before a
-        return 1;
-      }
-    },
-
-    isPast: function(event) {
-      return !this.isUpcoming(event);
-    },
-
-    isUpcoming: function(event) {
-      return moment(event.startDate).isAfter(moment());
-    },
-
-    isFeatured: function(event) {
-      return event.featuredEvent == true;
-    },
-
-    _observeEntries: function(response) {
-      if (Object.keys(response).length === 0 && response.constructor === Object || !response || response == null) {
-        return;
-      }
-
-      // stop loading animation
-      $('#loadMoreEvents span').removeClass('loading');
-
-      // update this.events
-      for (var i = 0; i < response.items.length; i += 1) {
-        var cont = true;
-
-        // check that event not already in array
-        for(var j = 0; j < this.events.length; j += 1) {
-          if(response.items[i].fields.slug == this.events[j].slug) {
-            cont = false;
+      static get properties() {
+        return {
+          entries: {
+            type: Object,
+            value: function() {
+              return {};
+            }
+          },
+          events: {
+            type: Array,
+            value: function() {
+              return [];
+            },
+            notify: true
+          },
+          featuredUpcomingEvents: {
+            type: Array,
+            value: function() {
+              return [];
+            },
+            notify: true
+          },
+          maxDetailsChars: {
+            type: Number,
+            value: 150
+          },
+          ctaButtonText: {
+            type: String,
+            value: "Learn More"
+          },
+          showDetailsPreview: {
+            type: Boolean,
+            value: false
+          },
+          cardImageWidth: {
+            type: Number,
+            value: 640
+          },
+          contentfulToken: {
+            Type: String,
+            value: ''
+          },
+          contentfulSpace: {
+            Type: String,
+            value: ''
           }
         }
+      }
 
-        if(!cont) {
-          // event already in array, no need to process or add to this.events
-          continue;
+      static get observers() {
+        return [
+          '_observeEntries(entries)'
+        ]
+      }
+
+      loadMoreEvents(e) {
+        e.preventDefault();
+        this.shadowRoot.querySelector('#loadMoreEvents span').classList.add('loading');
+        var limit = parseInt(this.shadowRoot.querySelector('epic-contentful').getAttribute('limit'));
+        this.shadowRoot.querySelector('epic-contentful').setAttribute('limit', limit + 9);
+      }
+
+      sortByDateAsc(a, b) {
+        var isAfter = moment(a.startDate).isAfter(b.startDate);
+
+        if(isAfter) {
+          // sort a before b
+          return 1;
         } else {
-          // event not already in array, process and add to this.events
-
-          // format event start date
-          var longStartDate = moment(response.items[i].fields.startDate).format("ddd, MMM D YYYY h:mmA"),
-              shortStartDate = moment(response.items[i].fields.startDate).format("M/D/YYYY hA");
-
-          /*
-            Time Formatting
-
-            If the event lasts more than one day, exclude the start/end time.
-            If the event is only one day, show the start and end times.
-
-            i.e.
-              Jun 30 6:00PM
-              Jun 30 - Jul 1
-          */
-
-          var startDay = moment(response.items[i].fields.startDate).format("D"),
-            endDay = moment(response.items[i].fields.endDate).format("D"),
-            startAndEnd,
-            truncatedDetails;
-
-          if (startDay !== endDay) {
-            startAndEnd = moment(response.items[i].fields.startDate).format("MMM D YYYY - ") + moment(response.items[i].fields.endDate).format("MMM D YYYY");
-          } else {
-            startAndEnd = moment(response.items[i].fields.startDate).format("MMM D YYYY h:mmA");
-          }
-
-          // truncate event details to first x characters
-          if (response.items[i].fields.details && response.items[i].fields.details.length > this.maxDetailsChars) {
-            truncatedDetails = response.items[i].fields.details.substr(0, this.maxDetailsChars);
-            truncatedDetails += '...';
-          } else {
-            truncatedDetails = response.items[i].fields.details;
-          }
-
-          // prevent crashing page if featuredImage isn't defined or published
-          if(response.items[i].fields.featuredImage == undefined) {
-            console.error("Event \"" + response.items[i].fields.name + "\" missing featured image; skipping adding event to page.");
-            continue;
-          }
-
-          // reduce featuredImage filesize
-          var featuredImage = response.items[i].fields.featuredImage.fields.file.url;
-          if(response.items[i].fields.featuredEvent) {
-            featuredImage += '?q=80';
-          } else {
-            featuredImage += '?q=80&w=' + this.cardImageWidth;
-          }
-
-          // create event object
-          var event = {
-            'blogUrl': response.items[i].fields.blogUrl,
-            'details': response.items[i].fields.details,
-            'endDate': response.items[i].fields.endDate,
-            'externalUrl': response.items[i].fields.externalUrl,
-            'featuredEvent': response.items[i].fields.featuredEvent,
-            'featuredImage': featuredImage,
-            'locationString': response.items[i].fields.locationString,
-            'name': response.items[i].fields.name,
-            'slug': response.items[i].fields.slug,
-            'startDate': response.items[i].fields.startDate,
-            'teaser': response.items[i].fields.teaser,
-            'video': response.items[i].fields.video,
-            'truncatedDetails': truncatedDetails,
-            'startAndEnd': startAndEnd,
-            'heading': response.items[i].fields.name,
-            'subheading': startAndEnd,
-            'ctaText': this.ctaButtonText
-          };
-
-          this.push('events', event);
-
-          // add to featured events if featured & upcoming
-          if(event.featuredEvent && moment(event.startDate).isAfter(moment())) {
-            this.push('featuredUpcomingEvents', event);
-          }
-
+          // sort b before a
+          return -1;
         }
       }
-    },
-  })
-</script>
+
+      sortByDateDesc(a, b) {
+        var isAfter = moment(a.startDate).isAfter(b.startDate);
+
+        if(isAfter) {
+          // sort a before b
+          return -1;
+        } else {
+          // sort b before a
+          return 1;
+        }
+      }
+
+      isPast(event) {
+        return !this.isUpcoming(event);
+      }
+
+      isUpcoming(event) {
+        return moment(event.startDate).isAfter(moment());
+      }
+
+      isFeatured(event) {
+        return event.featuredEvent == true;
+      }
+
+      _observeEntries(response) {
+        if (Object.keys(response).length === 0 && response.constructor === Object || !response || response == null) {
+          return;
+        }
+
+        // stop loading animation
+        this.shadowRoot.querySelector('#loadMoreEvents span').classList.remove('loading');
+
+        // update this.events
+        for (var i = 0; i < response.items.length; i += 1) {
+          var cont = true;
+
+          // check that event not already in array
+          for(var j = 0; j < this.events.length; j += 1) {
+            if(response.items[i].fields.slug == this.events[j].slug) {
+              cont = false;
+            }
+          }
+
+          if(!cont) {
+            // event already in array, no need to process or add to this.events
+            continue;
+          } else {
+            // event not already in array, process and add to this.events
+
+            // format event start date
+            var longStartDate = moment(response.items[i].fields.startDate).format("ddd, MMM D YYYY h:mmA"),
+                shortStartDate = moment(response.items[i].fields.startDate).format("M/D/YYYY hA");
+
+            /*
+              Time Formatting
+
+              If the event lasts more than one day, exclude the start/end time.
+              If the event is only one day, show the start and end times.
+
+              i.e.
+                Jun 30 6:00PM
+                Jun 30 - Jul 1
+            */
+
+            var startDay = moment(response.items[i].fields.startDate).format("D"),
+              endDay = moment(response.items[i].fields.endDate).format("D"),
+              startAndEnd,
+              truncatedDetails;
+
+            if (startDay !== endDay) {
+              startAndEnd = moment(response.items[i].fields.startDate).format("MMM D YYYY - ") + moment(response.items[i].fields.endDate).format("MMM D YYYY");
+            } else {
+              startAndEnd = moment(response.items[i].fields.startDate).format("MMM D YYYY h:mmA");
+            }
+
+            // truncate event details to first x characters
+            if (response.items[i].fields.details && response.items[i].fields.details.length > this.maxDetailsChars) {
+              truncatedDetails = response.items[i].fields.details.substr(0, this.maxDetailsChars);
+              truncatedDetails += '...';
+            } else {
+              truncatedDetails = response.items[i].fields.details;
+            }
+
+            // prevent crashing page if featuredImage isn't defined or published
+            if(response.items[i].fields.featuredImage == undefined) {
+              console.error("Event \"" + response.items[i].fields.name + "\" missing featured image; skipping adding event to page.");
+              continue;
+            }
+
+            // reduce featuredImage filesize
+            var featuredImage = response.items[i].fields.featuredImage.fields.file.url;
+            if(response.items[i].fields.featuredEvent) {
+              featuredImage += '?q=80';
+            } else {
+              featuredImage += '?q=80&w=' + this.cardImageWidth;
+            }
+
+            // create event object
+            var event = {
+              'blogUrl': response.items[i].fields.blogUrl,
+              'details': response.items[i].fields.details,
+              'endDate': response.items[i].fields.endDate,
+              'externalUrl': response.items[i].fields.externalUrl,
+              'featuredEvent': response.items[i].fields.featuredEvent,
+              'featuredImage': featuredImage,
+              'locationString': response.items[i].fields.locationString,
+              'name': response.items[i].fields.name,
+              'slug': response.items[i].fields.slug,
+              'startDate': response.items[i].fields.startDate,
+              'teaser': response.items[i].fields.teaser,
+              'video': response.items[i].fields.video,
+              'truncatedDetails': truncatedDetails,
+              'startAndEnd': startAndEnd,
+              'heading': response.items[i].fields.name,
+              'subheading': startAndEnd,
+              'ctaText': this.ctaButtonText
+            };
+
+            this.push('events', event);
+
+            // add to featured events if featured & upcoming
+            if(event.featuredEvent && moment(event.startDate).isAfter(moment())) {
+              this.push('featuredUpcomingEvents', event);
+            }
+          }
+        }
+      }
+    }
+
+    window.customElements.define(EpicEventsPage.is, EpicEventsPage);
+  </script>
+</dom-module>
