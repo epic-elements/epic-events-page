@@ -310,7 +310,7 @@ Example:
       space="[[contentfulSpace]]"
       content-type="events"
       entries="{{entries}}"
-      limit="20"
+      limit="9"
       skip="0"
       order-by="-fields.startDate"
       mode="entries">
@@ -391,22 +391,16 @@ Example:
         return {
           entries: {
             type: Object,
-            value: function() {
-              return {};
-            }
+            value: () => {return {}}
           },
           events: {
             type: Array,
-            value: function() {
-              return [];
-            },
+            value: () => {return []},
             notify: true
           },
           featuredUpcomingEvents: {
             type: Array,
-            value: function() {
-              return [];
-            },
+            value: () => {return []},
             notify: true
           },
           maxDetailsChars: {
