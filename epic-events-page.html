@@ -26,11 +26,15 @@ Example:
   <template>
     <style>
       :host {
+        --heading-font-family: "Interstate", Helvetica, arial, sans-serif;
+        --default-font-family: Helvetica, arial, sans-serif;
+
         display: block;
         width: 100%;
         margin: 0;
         padding: 0;
-        font-family: Helvetica, arial, sans-serif;
+
+        font-family: var(--default-font-family);
       }
 
       .main {
@@ -51,7 +55,6 @@ Example:
         padding: 1em 0;
         text-transform: uppercase;
         background-color: transparent;
-        font-family: "Interstate", Helvetica, arial, sans-serif;
       }
 
       .main h2 {
@@ -68,6 +71,7 @@ Example:
         padding: 50px 1em;
         background: url("https://images.contentful.com/1kzutnf7jc3r/3k7umwQUDYuSq8SS2IaMW6/376d5f7163db9efc618b09e833f07603/events-hero.jpg?q=80") center center no-repeat;
         background-size: cover;
+        background-color: #999;
         color: white;
       }
 
@@ -306,7 +310,7 @@ Example:
       space="[[contentfulSpace]]"
       content-type="events"
       entries="{{entries}}"
-      limit="20"
+      limit="9"
       skip="0"
       order-by="-fields.startDate"
       mode="entries">
@@ -387,22 +391,16 @@ Example:
         return {
           entries: {
             type: Object,
-            value: function() {
-              return {};
-            }
+            value: () => {return {}}
           },
           events: {
             type: Array,
-            value: function() {
-              return [];
-            },
+            value: () => {return []},
             notify: true
           },
           featuredUpcomingEvents: {
             type: Array,
-            value: function() {
-              return [];
-            },
+            value: () => {return []},
             notify: true
           },
           maxDetailsChars: {
@@ -419,7 +417,15 @@ Example:
           },
           cardImageWidth: {
             type: Number,
-            value: 640
+            value: 500
+          },
+          featuredImageWidth: {
+            type: Number,
+            value: 1200
+          },
+          featuredImageHeight: {
+            type: Number,
+            value: 500
           },
           contentfulToken: {
             Type: String,
@@ -549,7 +555,7 @@ Example:
             // reduce featuredImage filesize
             var featuredImage = response.items[i].fields.featuredImage.fields.file.url;
             if(response.items[i].fields.featuredEvent) {
-              featuredImage += '?q=80';
+              featuredImage += '?q=80&w=' + this.featuredImageWidth + '&h=' + this.featuredImageHeight;
             } else {
               featuredImage += '?q=80&w=' + this.cardImageWidth;
             }
