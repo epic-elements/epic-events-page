@@ -123,10 +123,7 @@ Example:
       .event h2 {
         padding: 0.5em 0;
         overflow-wrap: break-word;
-        -webkit-hyphens: auto;
-           -moz-hyphens: auto;
-            -ms-hyphens: auto;
-                hyphens: auto;
+        hyphens: auto;
         width: 100%;
         text-align: center;
       }
@@ -137,8 +134,8 @@ Example:
       }
 
       .event {
-        -ms-flex-preferred-size: 33.33%;
-            flex-basis: 33.33%;
+        flex-basis: 33.33%;
+        max-width: 33.33%; /* IE fix */
         padding: 0 1em;
         box-sizing: border-box;
         margin: 0 0 30px;

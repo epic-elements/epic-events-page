@@ -179,17 +179,10 @@ Example:
         background-color: #ccc;
         background-image: url('https://images.contentful.com/1kzutnf7jc3r/1znLeKp4kAauaQogyy4smm/b8f1aa8298fc5fd82b9db4796e1052aa/decorative-texture-1.png');
         background-repeat: repeat;
-        -webkit-flex-basis: 50%;
-        -ms-flex-preferred-size: 50%;
         flex-basis: 50%;
-        display: -webkit-flex;
-        display: -ms-flexbox;
         display: flex;
-        -webkit-flex-flow: column nowrap;
-        -ms-flex-flow: column nowrap;
-        flex-flow: column nowrap;
-        -webkit-justify-content: center;
-        -ms-flex-pack: center;
+        flex-wrap: nowrap;
+        flex-direction: column;
         justify-content: center;
       }
 
@@ -200,11 +193,10 @@ Example:
       .poster img {
         width: 100%;
         height: auto;
+        flex-shrink: 0; /* IE fix */
       }
 
       .eventDetail {
-        -ms-flex-preferred-size: 50%;
-        -webkit-flex-basis: 50%;
         flex-basis: 50%;
         padding: 2em;
         box-sizing: border-box;
@@ -402,15 +394,15 @@ Example:
 
             <div class="externalLinks">
               <template is="dom-if" if="[[externalUrl]]">
-                <a href="[[externalUrl]]" class="button" target="_blank">[[name]]</a>
+                <a href="[[externalUrl]]" class="button">[[name]]</a>
               </template>
 
               <template is="dom-if" if="[[blogUrl]]">
-                <a href="[[blogUrl]]" class="button" target="_blank">On The Blog</a>
+                <a href="[[blogUrl]]" class="button">On The Blog</a>
               </template>
 
               <template is="dom-if" if="[[facebookUrl]]">
-                <a href="[[facebookUrl]]" class="button facebook" target="_blank">Event on Facebook</a>
+                <a href="[[facebookUrl]]" class="button facebook">Event on Facebook</a>
               </template>
             </div>
           </div>
